@@ -15,9 +15,16 @@ if errorlevel 1 (
 
 docker info >nul 2>&1
 if errorlevel 1 (
-    echo Docker Engine chua chay. Hay khoi dong Docker Desktop.
+    echo [Loi] Docker Engine chua chay. Hay mo ung dung Docker Desktop va cho bieu tuong chuyen sang mau xanh la cay.
+    pause
     exit /b 1
 )
 
+if not exist .env (
+    echo [Khoi tao] Chua tim thay file .env, dang tu dong tao tu .env.example...
+    copy .env.example .env >nul
+)
+
+echo [Bat dau] Dang khoi chay he thong StayGo qua Docker Compose...
 docker compose up --build
 exit /b %errorlevel%

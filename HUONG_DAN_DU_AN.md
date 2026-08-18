@@ -30,16 +30,13 @@ Dự án áp dụng mô hình kiến trúc hiện đại, tận dụng thế m�
 
 ## 3. HƯỚNG DẪN KHỞI CHẠY DỰ ÁN
 
-> **Kho mã nguồn GitHub:** [https://github.com/hongphuoc6104/quanlykhachsan](https://github.com/hongphuoc6104/quanlykhachsan)
-
 ### 3.1. Chạy nhanh bằng Docker (Khuyên dùng)
 
 Yêu cầu máy đã cài đặt **Docker Desktop** (hoặc Docker Engine + Docker Compose v2).
 
-1. **Tải mã nguồn từ GitHub:**
+1. **Mở Terminal tại thư mục gốc dự án:**
    ```bash
-   git clone https://github.com/hongphuoc6104/quanlykhachsan.git
-   cd quanlykhachsan
+   cd /path/to/qlks
    ```
 
 2. **Khởi chạy toàn bộ hệ thống bằng Docker Compose:**

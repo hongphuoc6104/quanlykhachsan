@@ -1,39 +1,49 @@
 # StayGo - Hệ thống Đặt phòng và Quản lý Khách sạn
 
-> **GitHub Repository:** [https://github.com/hongphuoc6104/quanlykhachsan](https://github.com/hongphuoc6104/quanlykhachsan)
+> **GitHub Repository:** [https://github.com/hongphuoc6104/quanlykhachsan](https://github.com/hongphuoc6104/quanlykhachsan)  
+> **Tài liệu hướng dẫn chi tiết:** Xem file [HUONG_DAN_DU_AN.md](HUONG_DAN_DU_AN.md) hoặc [huong_dan_cai_dat_windows.pdf](huong_dan_cai_dat_windows.pdf).
 
-Website đặt phòng khách sạn với giao diện tham khảo trải nghiệm của các nền tảng OTA, không phải bản sao thương hiệu. Hệ thống sử dụng Laravel 12 làm REST API, Vue 3 làm giao diện, MySQL làm cơ sở dữ liệu nghiệp vụ chính (thông tin khách hàng, sơ đồ phòng, hóa đơn, lịch đặt phòng, v.v.), MongoDB 8 (chạy replica set `rs0`) lưu lịch sử chat và logs/tracking, Redis phục vụ cache/queue/outbox, còn Node.js + Socket.io cập nhật sơ đồ phòng và chat theo thời gian thực. Ảnh phòng được lưu trên file storage; MongoDB/MySQL chỉ lưu metadata và đường dẫn tham chiếu. Virtual Tour 3D được để dành cho giai đoạn mở rộng.
+StayGo là hệ thống web đặt phòng và quản lý khách sạn hiện đại, áp dụng kiến trúc phân tách Client - Server (SPA + REST API + Realtime WebSocket + Polyglot Persistence MySQL/MongoDB/Redis).
 
-## Cài đặt & Khởi chạy
+---
 
-### 1. Sao chép mã nguồn từ GitHub
+## Hướng dẫn Cài đặt & Khởi chạy nhanh trên Windows (1-Click)
+
+### 1. Yêu cầu chuẩn bị
+- Cài đặt phần mềm **Docker Desktop** for Windows (Tải tại [docker.com/products/docker-desktop](https://www.docker.com/products/docker-desktop/)).
+- Mở ứng dụng Docker Desktop và chờ biểu tượng cá voi ở góc dưới chuyển sang **màu xanh lá cây (Running)**.
+
+### 2. Tải mã nguồn
+Mở cửa sổ dòng lệnh (**Command Prompt** hoặc **PowerShell**) và chạy:
 ```bash
 git clone https://github.com/hongphuoc6104/quanlykhachsan.git
 cd quanlykhachsan
 ```
 
-### 2. Khởi chạy bằng Docker
-Yêu cầu Docker Desktop có Docker Compose v2. Từ thư mục gốc dự án, chạy:
+### 3. File chạy cài đặt và khởi động tất cả (`run.bat`)
+Dự án đã có sẵn file script tự động hóa **`run.bat`** tại thư mục gốc. Bạn chỉ cần:
+- **Nhấp đúp chuột (Double-click) vào file `run.bat`** (hoặc gõ `run.bat` trong cửa sổ dòng lệnh).
 
-```bash
-docker compose up --build
-```
+> 💡 **File `run.bat` sẽ tự động thực hiện từ A-Z:**
+> 1. Kiểm tra trạng thái Docker Engine.
+> 2. Tự động khởi tạo file cấu hình `.env` từ `.env.example` (nếu chưa có).
+> 3. Tự động tải hình ảnh Docker, build backend PHP 8.2, frontend Vue 3, realtime Node.js.
+> 4. Khởi tạo replica set MongoDB `rs0`, chạy migration CSDL và nạp sẵn toàn bộ dữ liệu mẫu (Seeder).
 
-Trên Windows có thể chạy `run.bat`; script sẽ kiểm tra Docker trước khi gọi cùng lệnh trên. Lần đầu khởi động, dịch vụ `mongo-init` tự khởi tạo replica set `rs0`; backend chờ MongoDB có primary, tạo index, seed dữ liệu rồi mở API. Scheduler tự giải phóng booking online quá hạn giữ phòng.
+---
 
-Các địa chỉ mặc định:
+## Các cổng dịch vụ mặc định
 
-| Thành phần | Địa chỉ |
-| --- | --- |
-| Frontend Vue 3 | http://localhost:3000 |
-| Backend Laravel 12 | http://localhost:8000 |
-| API v1 | http://localhost:8000/api/v1 |
-| Backend health | http://localhost:8000/up |
-| Realtime health | http://localhost:3001/health |
-| MongoDB 8 trên máy host | `localhost:27017` |
-| MySQL 8.0 trên máy host | `localhost:3306` |
+| Thành phần | Địa chỉ truy cập | Ghi chú |
+| --- | --- | --- |
+| **Giao diện Web Khách hàng & Admin** | [http://localhost:3000](http://localhost:3000) | Giao diện Vue 3 SPA |
+| **Backend REST API** | [http://localhost:8000/api/v1](http://localhost:8000/api/v1) | Laravel 12 API |
+| **Kiểm tra Backend Health** | [http://localhost:8000/up](http://localhost:8000/up) | Trạng thái Laravel |
+| **Kiểm tra Realtime WebSocket** | [http://localhost:3001/health](http://localhost:3001/health) | Socket.IO Health Check |
+| **Cơ sở dữ liệu MySQL 8.0** | `localhost:3306` | User: `root`, DB: `datphong` |
+| **Cơ sở dữ liệu MongoDB 8.0** | `localhost:27017` | Database: `datphong` (Replica Set `rs0`) |
 
-Nếu cổng `27017` đã được sử dụng, tạo file `.env` từ `.env.example` và đổi `MONGODB_HOST_PORT`, ví dụ `MONGODB_HOST_PORT=27018`. Backend trong Docker vẫn kết nối tới `mongodb:27017` bằng URI `mongodb://mongodb:27017/datphong?replicaSet=rs0`. Redis chỉ được các service trong Docker sử dụng qua `redis:6379`, không công khai cổng ra máy host.
+Nếu cổng `27017` hoặc `3306` bị trùng với dịch vụ có sẵn trên máy (như XAMPP), chỉ cần mở file `.env` và đổi `MYSQL_HOST_PORT=3307` hoặc `MONGODB_HOST_PORT=27018`.
 
 ## Cấu hình
 
