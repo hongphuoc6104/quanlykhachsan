@@ -16,9 +16,6 @@ frontend/.env
 backend/storage/logs/*.log
 backend/bootstrap/cache/*.php
 
-# Local Docker data
-volumes/
-docker-data/
 
 # Editors and operating systems
 .idea/
