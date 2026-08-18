@@ -4,7 +4,7 @@
 
 ## 1. GIỚI THIỆU TỔNG QUAN
 
-**StayGo** (DatPhong) là hệ sinh thái web đặt phòng và quản lý khách sạn hiện đại, được xây dựng theo kiến trúc phân tách Client - Server (SPA + REST API + Realtime Server + Polyglot Persistence). Hệ thống cung cấp trải nghiệm đặt phòng mượt mà cho khách hàng và phân hệ quản trị nghiệp vụ toàn diện cho nhân viên/quản lý khách sạn.
+**StayGo** là hệ sinh thái web đặt phòng và quản lý khách sạn hiện đại, được xây dựng theo kiến trúc phân tách Client - Server (SPA + REST API + Realtime Server + Polyglot Persistence). Hệ thống cung cấp trải nghiệm đặt phòng mượt mà cho khách hàng và phân hệ quản trị nghiệp vụ toàn diện cho nhân viên/quản lý khách sạn.
 
 ---
 
