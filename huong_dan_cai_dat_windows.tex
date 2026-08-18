@@ -213,33 +213,30 @@ Sau đó khởi động lại máy tính một lần nữa.
 \end{warningbox}
 
 % ==================== BƯỚC 2: TẢI MÃ NGUỒN ====================
-\section{BƯỚC 2: Tải mã nguồn dự án về máy tính (Git Clone)}
+\section{BƯỚC 2: Tải mã nguồn dự án bằng Git Clone}
 
-Mở cửa sổ dòng lệnh (\textbf{Command Prompt} hoặc \textbf{PowerShell}) và chạy các lệnh sau để tải mã nguồn từ GitHub về máy tính:
-
-\begin{terminalcmd}{Sao chép mã nguồn từ GitHub về máy tính}
+\begin{stepbox}{Các thao tác tải mã nguồn và chuyển vào thư mục dự án}
+\begin{enumerate}[leftmargin=5mm,itemsep=2pt]
+  \item Mở cửa sổ dòng lệnh (\textbf{Command Prompt} hoặc \textbf{PowerShell}) trên máy tính (tại thư mục bạn muốn lưu dự án, ví dụ ổ \texttt{D:\textbackslash} hoặc Desktop).
+  \item Sao chép và chạy lệnh sau để tải toàn bộ mã nguồn từ GitHub về máy:
+\begin{terminalcmd}{Tải mã nguồn từ GitHub về máy tính}
 git clone https://github.com/hongphuoc6104/quanlykhachsan.git
+\end{terminalcmd}
+  \item Sau khi tải xong, chuyển dòng lệnh vào ngay thư mục dự án:
+\begin{terminalcmd}{Di chuyển vào thư mục dự án}
 cd quanlykhachsan
 \end{terminalcmd}
-
-% ==================== BƯỚC 3: MỞ THƯ MỤC DỰ ÁN TRÊN WINDOWS ====================
-\section{BƯỚC 3: Mở cửa sổ dòng lệnh tại thư mục dự án}
-
-Để máy tính hiểu bạn muốn thao tác với dự án, hãy mở cửa sổ dòng lệnh ngay tại thư mục dự án:
-
-\begin{tipbox}[Mẹo mở cửa sổ dòng lệnh siêu nhanh trong 2 giây trên Windows]
-\begin{enumerate}[leftmargin=5mm,itemsep=1pt]
-  \item Mở thư mục dự án bằng \textbf{File Explorer} (thư mục có chứa các file \texttt{docker-compose.yml}, \texttt{run.bat}, \texttt{backend}, \texttt{frontend}).
-  \item Nhấp chuột trái vào \textbf{thanh địa chỉ đường dẫn} ở phía trên cùng của cửa sổ File Explorer (nơi hiện đường dẫn thư mục).
-  \item Gõ chữ \codeinline{cmd} hoặc \codeinline{powershell} rồi nhấn phím \textbf{Enter}.
-  \item Ngay lập tức, một cửa sổ dòng lệnh màu đen sẽ mở ra đúng ngay tại thư mục dự án của bạn!
 \end{enumerate}
+\end{stepbox}
+
+\begin{tipbox}[Mẹo mở lại cửa sổ dòng lệnh tại thư mục dự án nếu lỡ tắt]
+Nếu bạn đã lỡ tắt cửa sổ dòng lệnh: Hãy mở thư mục \texttt{quanlykhachsan} bằng \textbf{File Explorer} $\rightarrow$ Nhấp chuột trái vào \textbf{thanh địa chỉ đường dẫn} ở phía trên cùng $\rightarrow$ Gõ chữ \codeinline{cmd} rồi nhấn phím \textbf{Enter}. Cửa sổ dòng lệnh sẽ tự động mở ra ngay tại thư mục dự án.
 \end{tipbox}
 
-% ==================== BƯỚC 4: KIỂM TRA FILE CẤU HÌNH .ENV ====================
-\section{BƯỚC 4: Kiểm tra và chuẩn bị file cấu hình môi trường (.env)}
+% ==================== BƯỚC 3: KIỂM TRA FILE CẤU HÌNH .ENV ====================
+\section{BƯỚC 3: Chuẩn bị file cấu hình môi trường (.env)}
 
-Thư mục dự án đã có sẵn file mẫu \texttt{.env.example}. Hãy chắc chắn bạn đã có file \texttt{.env}:
+Ngay tại cửa sổ dòng lệnh trong thư mục \texttt{quanlykhachsan}, hãy tạo file \texttt{.env} từ file mẫu \texttt{.env.example}:
 
 \begin{terminalcmd}{Tạo file .env từ file mẫu trên Windows (chạy trong CMD)}
 copy .env.example .env
@@ -260,20 +257,20 @@ Copy-Item .env.example .env
 \textit{Ghi chú: Nếu máy tính bạn đã cài sẵn MySQL (như XAMPP/WampServer) đang chiếm cổng 3306, hãy mở file \texttt{.env} và đổi thành \codeinline{MYSQL\_HOST\_PORT=3307} hoặc tắt phần mềm XAMPP trước khi khởi chạy.}
 \end{notebox}
 
-% ==================== BƯỚC 5: KHỞI CHẠY DỰ ÁN ====================
-\section{BƯỚC 5: Khởi chạy toàn bộ hệ thống}
+% ==================== BƯỚC 4: KHỞI CHẠY DỰ ÁN ====================
+\section{BƯỚC 4: Khởi chạy toàn bộ hệ thống}
 
 Bạn có thể lựa chọn 1 trong 2 cách sau để khởi chạy:
 
 \subsection*{Cách 1: Click đúp chuột vào file \texttt{run.bat} (Siêu đơn giản)}
 \begin{enumerate}[leftmargin=5mm,itemsep=1pt]
-  \item Tìm file có tên \textbf{\texttt{run.bat}} trong thư mục dự án.
+  \item Tìm file có tên \textbf{\texttt{run.bat}} trong thư mục dự án \texttt{quanlykhachsan}.
   \item \textbf{Nhấp đúp chuột trái (Double-click)} vào file này.
   \item Một cửa sổ màu đen sẽ tự động hiện lên, kiểm tra Docker và thực hiện toàn bộ việc cài đặt khởi chạy!
 \end{enumerate}
 
 \subsection*{Cách 2: Chạy lệnh Docker Compose từ cửa sổ dòng lệnh (Chuẩn kỹ thuật)}
-Tại cửa sổ CMD / PowerShell đã mở ở Bước 3, sao chép và dán lệnh sau:
+Tại cửa sổ CMD / PowerShell ở thư mục dự án, sao chép và dán lệnh sau:
 
 \begin{terminalcmd}{Khởi chạy toàn bộ 10 container dịch vụ cùng một lúc}
 docker compose up --build
@@ -294,8 +291,8 @@ Khi bạn chạy lệnh trên lần đầu tiên, hãy kiên nhẫn đợi từ 
 \end{enumerate}
 \end{stepbox}
 
-% ==================== BƯỚC 6: TRUY CẬP VÀ TRẢI NGHIỆM ====================
-\section{BƯỚC 6: Truy cập và trải nghiệm các chức năng của hệ thống}
+% ==================== BƯỚC 5: TRUY CẬP VÀ TRẢI NGHIỆM ====================
+\section{BƯỚC 5: Truy cập và trải nghiệm các chức năng của hệ thống}
 
 Mở trình duyệt web của bạn (Google Chrome, Microsoft Edge, Firefox,...) và truy cập vào các địa chỉ sau:
 
@@ -342,8 +339,8 @@ Hệ thống đã có sẵn 5 tài khoản mẫu tương ứng với 5 vai trò 
   \end{tabularx}
 \end{table}
 
-% ==================== BƯỚC 7: CÁC CÂU LỆNH THƯỜNG DÙNG ====================
-\section{BƯỚC 7: Các câu lệnh quản trị và vận hành thường dùng}
+% ==================== BƯỚC 6: CÁC CÂU LỆNH THƯỜNG DÙNG ====================
+\section{BƯỚC 6: Các câu lệnh quản trị và vận hành thường dùng}
 
 Mỗi khi cần thao tác bảo trì, hãy mở cửa sổ CMD / PowerShell tại thư mục dự án và dùng các lệnh sau:
 
@@ -371,8 +368,8 @@ docker compose exec backend php artisan db:seed --force
 docker compose exec backend php artisan test
 \end{terminalcmd}
 
-% ==================== BƯỚC 8: XỬ LÝ LỖI THƯỜNG GẶP ====================
-\section{BƯỚC 8: Hướng dẫn xử lý các sự cố thường gặp trên Windows}
+% ==================== BƯỚC 7: XỬ LÝ LỖI THƯỜNG GẶP ====================
+\section{BƯỚC 7: Hướng dẫn xử lý các sự cố thường gặp trên Windows}
 
 \begin{warningbox}[1. Lỗi: "docker: command not found" hoặc "error during connect"]
 \textbf{Nguyên nhân:} Ứng dụng Docker Desktop chưa được bật hoặc đang trong quá trình khởi động.\\
