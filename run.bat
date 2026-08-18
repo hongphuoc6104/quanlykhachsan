@@ -1,21 +1,26 @@
 @echo off
 setlocal
+cd /d "%~dp0"
 
 where docker >nul 2>&1
 if errorlevel 1 (
-    echo Khong tim thay Docker. Hay cai dat va khoi dong Docker Desktop.
+    echo [Loi] Khong tim thay Docker trong he thong.
+    echo Vui long cai dat Docker Desktop tai: https://www.docker.com/products/docker-desktop/
+    pause
     exit /b 1
 )
 
 docker compose version >nul 2>&1
 if errorlevel 1 (
-    echo Docker Compose khong san sang. Hay cap nhat Docker Desktop.
+    echo [Loi] Docker Compose khong san sang. Vui long cap nhat Docker Desktop.
+    pause
     exit /b 1
 )
 
 docker info >nul 2>&1
 if errorlevel 1 (
-    echo [Loi] Docker Engine chua chay. Hay mo ung dung Docker Desktop va cho bieu tuong chuyen sang mau xanh la cay.
+    echo [Loi] Docker Engine chua chay.
+    echo Hay mo ung dung Docker Desktop tren Windows va cho bieu tuong o goc duoi chuyen sang mau XANH LA CAY (Running).
     pause
     exit /b 1
 )
@@ -25,6 +30,12 @@ if not exist .env (
     copy .env.example .env >nul
 )
 
-echo [Bat dau] Dang khoi chay he thong StayGo qua Docker Compose...
+echo [Bat dau] Dang khoi chay he thong StayGo bang Docker Compose...
 docker compose up --build
+
+if errorlevel 1 (
+    echo [Thong bao] Tien trinh dung hoac co loi.
+    pause
+)
+
 exit /b %errorlevel%
