@@ -67,15 +67,12 @@
   pdfkeywords={Docker, Windows, Laravel 12, Vue 3, MySQL, MongoDB, Redis, StayGo}
 }
 
-% Cấu hình Header và Footer
+% Cấu hình Header và Footer (chỉ để lại số trang ở footer)
 \pagestyle{fancy}
 \fancyhf{}
-\fancyhead[L]{\fontsize{8.5}{10.5}\selectfont\color{gray}\textbf{STAYGO HOTEL SYSTEM} -- Hướng dẫn cài đặt trên Windows}
-\fancyhead[R]{\fontsize{8.5}{10.5}\selectfont\color{gray}Dành cho người mới bắt đầu}
-\fancyfoot[L]{\fontsize{8.5}{10.5}\selectfont\color{gray}Tài liệu hướng dẫn triển khai hệ thống}
-\fancyfoot[R]{\fontsize{8.5}{10.5}\selectfont\color{gray}Trang \textbf{\thepage}}
-\renewcommand{\headrulewidth}{0.4pt}
-\renewcommand{\footrulewidth}{0.4pt}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
 
 % Định dạng tiêu đề các mục
 \titleformat{\section}
@@ -171,8 +168,6 @@
 % ==================== BÌA TÀI LIỆU TIÊU CHUẨN ====================
 \begin{center}
   \vspace*{1mm}
-  {\fontsize{9.5}{11.5}\selectfont\bfseries\color{AccentBlue} TÀI LIỆU HƯỚNG DẪN KỸ THUẬT VÀ TRIỂN KHAI PHẦN MỀM\par}
-  \vspace{2mm}
   {\fontsize{17}{21}\selectfont\bfseries\color{PrimaryNavy} HƯỚNG DẪN CÀI ĐẶT VÀ KHỞI CHẠY DỰ ÁN\\TRÊN HỆ ĐIỀU HÀNH WINDOWS\par}
   \vspace{1.5mm}
   {\fontsize{10.5}{13.5}\selectfont\color{gray} (Tài liệu chi tiết từng bước từ A đến Z -- Dành cho người mới bắt đầu)\par}
@@ -424,8 +419,7 @@ docker compose exec backend php artisan test
 \begin{center}
   \noindent\rule{0.6\textwidth}{0.8pt}\\
   \vspace{1.5mm}
-  {\small\color{gray}Chúc bạn cài đặt thành công và có trải nghiệm tuyệt vời với hệ thống StayGo!\\
-  Nếu cần biên dịch lại tài liệu này sang PDF: Chạy lệnh \codeinline{xelatex huong\_dan\_cai\_dat\_windows.tex}}
+  {\small\color{gray}Chúc bạn cài đặt thành công và có trải nghiệm tuyệt vời với hệ thống StayGo!}
 \end{center}
 
 \end{document}

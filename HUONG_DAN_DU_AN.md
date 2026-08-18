@@ -25,7 +25,6 @@ Dự án áp dụng mô hình kiến trúc hiện đại, tận dụng thế m�
 | **In-memory & Broker** | **Redis** | `7.0-alpine` | Bộ đệm cache, lưu session/queue và đóng vai trò Pub/Sub Message Broker cho Transactional Outbox |
 | **Realtime Service** | **Node.js** + **Express** + **Socket.IO** | Node `22+` / Express `5.1.0` / Socket.IO `4.8.1` | Lắng nghe sự kiện từ Redis Pub/Sub và phát sóng (broadcast) tức thì tới Client (sơ đồ phòng, tin nhắn chat) |
 | **Container Hóa** | **Docker** & **Docker Compose** | Compose `v2+` | Đóng gói toàn bộ 10 dịch vụ thành một môi trường chạy đồng nhất chỉ với 1 câu lệnh |
-| **Báo cáo Kỹ thuật** | **XeLaTeX** (TeX Live) | 2024 / 2026 | Soạn thảo tài liệu báo cáo luận văn khoa học chuẩn Unicode tiếng Việt |
 
 ---
 
@@ -167,23 +166,3 @@ Hệ thống đã tự động nạp (seed) sẵn các tài khoản để bạn 
 4. **Tự động hóa xử lý hết hạn giữ phòng (Background Scheduler):**
    * Cron job của Laravel tự động quét và giải phóng các phòng đang giữ tạm (Hold) quá 15 phút mà khách chưa hoàn tất thanh toán.
 
----
-
-## 6. HƯỚNG DẪN BIÊN DỊCH BÁO CÁO LUẬN VĂN (XeLaTeX)
-
-Toàn bộ mã nguồn tài liệu báo cáo khoa học 100+ trang chuẩn định dạng luận văn đại học nằm trong thư mục `report/`.
-
-### Yêu cầu:
-* Đã cài đặt **TeX Live** (Linux/macOS) hoặc **MiKTeX** (Windows) có hỗ trợ `xelatex`.
-
-### Các bước biên dịch tạo file PDF:
-1. Mở Terminal và di chuyển vào thư mục `report`:
-   ```bash
-   cd report
-   ```
-2. Biên dịch bằng lệnh `latexmk` (hoặc chạy 2-3 lần lệnh `xelatex` để cập nhật số trang, mục lục, danh mục hình ảnh và bảng biểu):
-   ```bash
-   xelatex -interaction=nonstopmode -halt-on-error main.tex
-   xelatex -interaction=nonstopmode -halt-on-error main.tex
-   ```
-3. File kết quả đầu ra: `report/main.pdf` đã sẵn sàng để in ấn hoặc nộp báo cáo.
