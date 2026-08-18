@@ -21,44 +21,46 @@ Dự án áp dụng mô hình kiến trúc hiện đại, tận dụng thế m�
 | **Backend Core** | **Laravel Framework** | `v12.x` (PHP 8.2+) | Xử lý toàn bộ logic nghiệp vụ, REST API v1, ORM, Transaction, Scheduler |
 | **Xác thực API** | **Laravel Sanctum** | `v4.2.0` | Quản lý phiên đăng nhập và cấp phát Personal Access Token (Bearer Token) |
 | **CSDL Quan hệ** | **MySQL** | `8.0` | Nguồn sự thật (Single Source of Truth) lưu trữ dữ liệu ACID: User, Room, Booking, Invoice, Room Nights (chống overbooking) |
-| **CSDL Tài liệu** | **MongoDB** (Replica Set `rs0`)| `8.0` | Lưu trữ lịch sử tin nhắn trò chuyện (Realtime Chat) và nhật ký sự kiện/hoạt động (Activity Logs/Tracking) với cơ chế TTL index |
-| **In-memory & Broker** | **Redis** | `7.0-alpine` | Bộ đệm cache, lưu session/queue và đóng vai trò Pub/Sub Message Broker cho Transactional Outbox |
+| **CSDL Tài liệu** | **MongoDB** | `8.0` | Lưu trữ lịch sử tin nhắn trò chuyện (Realtime Chat) và nhật ký sự kiện/hoạt động (Activity Logs/Tracking) |
+| **In-memory & Broker** | **Redis** | `7.0` | Bộ đệm cache, lưu session/queue và đóng vai trò Pub/Sub Message Broker cho Transactional Outbox |
 | **Realtime Service** | **Node.js** + **Express** + **Socket.IO** | Node `22+` / Express `5.1.0` / Socket.IO `4.8.1` | Lắng nghe sự kiện từ Redis Pub/Sub và phát sóng (broadcast) tức thì tới Client (sơ đồ phòng, tin nhắn chat) |
-| **Container Hóa** | **Docker** & **Docker Compose** | Compose `v2+` | Đóng gói toàn bộ 10 dịch vụ thành một môi trường chạy đồng nhất chỉ với 1 câu lệnh |
 
 ---
 
-## 3. HƯỚNG DẪN KHỞI CHẠY DỰ ÁN
+## 3. HƯỚNG DẪN KHỞI CHẠY DỰ ÁN TRÊN WINDOWS
 
-### 3.1. Chạy nhanh bằng Docker (Khuyên dùng)
+### 3.1. Thiết lập tự động bằng 1-Click (Khuyên dùng)
 
-Yêu cầu máy đã cài đặt **Docker Desktop** (hoặc Docker Engine + Docker Compose v2).
+1. **Yêu cầu chuẩn bị trên máy:**
+   - PHP 8.2+ & Composer
+   - Node.js LTS (v20 hoặc v22) & npm
+   - MySQL 8.0 (qua XAMPP/Laragon) & MongoDB 8.0 Community Server
 
-1. **Mở Terminal tại thư mục gốc dự án:**
+2. **Tải mã nguồn dự án:**
    ```bash
-   cd /path/to/qlks
+   git clone https://github.com/hongphuoc6104/quanlykhachsan.git
+   cd quanlykhachsan
    ```
 
-2. **Khởi chạy toàn bộ hệ thống bằng Docker Compose:**
-   ```bash
-   docker compose up --build
-   ```
-   *(Hoặc chạy ngầm trong nền: `docker compose up -d --build`)*
-   *(Trên Windows, bạn có thể click đúp chuột vào file `run.bat`)*
+3. **Khởi tạo và thiết lập dự án:**
+   - Nhấp đúp chuột vào file **`setup.bat`** (hoặc gõ `setup.bat` trong CMD). Script sẽ tự động chuẩn bị `.env`, cài đặt thư viện PHP/Node.js, chạy migration và nạp dữ liệu mẫu.
 
-3. **Truy cập các dịch vụ:**
+4. **Khởi chạy hệ thống:**
+   - Nhấp đúp chuột vào file **`start.bat`** (hoặc **`run.bat`**): Hệ thống tự động mở 3 cửa sổ CMD chạy song song Backend, Realtime và Frontend.
+
+5. **Truy cập các dịch vụ:**
    * 🌐 **Giao diện Web Khách hàng & Quản trị:** [http://localhost:3000](http://localhost:3000)
    * 🔌 **Backend REST API:** [http://localhost:8000/api/v1](http://localhost:8000/api/v1)
    * 🟢 **Backend Health Check:** [http://localhost:8000/up](http://localhost:8000/up)
    * ⚡ **Realtime WebSocket Health:** [http://localhost:3001/health](http://localhost:3001/health)
-   * 🗄️ **MySQL Host Port:** `localhost:3306` (User: `root`, Password: trống, Database: `datphong`)
+   * 🗄️ **MySQL Host Port:** `localhost:3306` (Database: `datphong`)
    * 🍃 **MongoDB Host Port:** `localhost:27017` (Database: `datphong`)
 
 ---
 
-### 3.2. Danh sách tài khoản demo có sẵn
+### 3.2. Danh sách tài khoản demo có sẵn (Phân quyền RBAC)
 
-Hệ thống đã tự động nạp (seed) sẵn các tài khoản để bạn kiểm tra phân quyền (RBAC):
+Hệ thống đã tự động nạp (seed) sẵn các tài khoản để bạn kiểm tra phân quyền tại [http://localhost:3000/login](http://localhost:3000/login):
 
 | Vai trò (Role) | Email đăng nhập | Mật khẩu | Quyền hạn & Chức năng kiểm thử |
 | :--- | :--- | :--- | :--- |
@@ -70,32 +72,32 @@ Hệ thống đã tự động nạp (seed) sẵn các tài khoản để bạn 
 
 ---
 
-### 3.3. Các lệnh hữu ích khi vận hành
+### 3.3. Các lệnh thủ công thường dùng
 
-- **Xem danh sách các container đang chạy:**
+- **Chạy Backend:**
   ```bash
-  docker compose ps
+  cd backend && php artisan serve
   ```
 
-- **Xem log thời gian thực của toàn bộ hệ thống:**
+- **Chạy Realtime Service:**
   ```bash
-  docker compose logs -f
+  cd realtime && npm start
   ```
 
-- **Dừng toàn bộ hệ thống:**
+- **Chạy Frontend:**
   ```bash
-  docker compose down
+  cd frontend && npm run dev
   ```
 
-- **Nạp lại dữ liệu mẫu (Seeder) khi cần thiết:**
+- **Nạp lại dữ liệu mẫu (Seeder):**
   ```bash
-  docker compose exec backend php artisan db:seed --force
+  cd backend && php artisan db:seed --force
   ```
 
 - **Chạy bộ kiểm thử tự động (Unit / Feature Test):**
   ```bash
-  docker compose exec backend php artisan test
-  docker compose exec realtime npm test
+  cd backend && php artisan test
+  cd realtime && npm test
   ```
 
 ---
@@ -146,10 +148,8 @@ Hệ thống đã tự động nạp (seed) sẵn các tài khoản để bạn 
    * Xuất dữ liệu hóa đơn phục vụ kế toán đối soát.
 5. **Kiểm duyệt Đánh giá (Review Moderation):**
    * Duyệt, ẩn hoặc phản hồi đánh giá của khách hàng.
-6. **Hộp thư CSKH đa kênh (Staff Chat Inbox):**
-   * Tiếp nhận các cuộc trò chuyện từ khách hàng theo từng khách sạn.
-   * Phân chia trạng thái hỗ trợ và trả lời realtime.
-7. **Báo cáo & Thống kê kinh doanh (Analytics Dashboard):**
+   * Hộp thư CSKH đa kênh (Staff Chat Inbox): Tiếp nhận các cuộc trò chuyện từ khách hàng theo từng khách sạn và trả lời realtime.
+6. **Báo cáo & Thống kê kinh doanh (Analytics Dashboard):**
    * Biểu đồ doanh thu theo thời gian, tỷ lệ lấp đầy phòng (Occupancy rate), số lượng booking theo trạng thái.
 
 ---
@@ -158,11 +158,10 @@ Hệ thống đã tự động nạp (seed) sẵn các tài khoản để bạn 
 
 1. **Transactional Outbox Pattern:**
    * Loại bỏ hoàn toàn lỗi **Dual-write** giữa Database và Message Broker. Khi có hành động nghiệp vụ (đặt phòng, thanh toán, đổi trạng thái phòng), backend lưu dữ liệu và bản ghi `outbox_events` trong cùng một MySQL Transaction.
-   * Service `outbox-publisher` độc lập sẽ đọc bảng outbox và đẩy lên Redis Pub/Sub -> Socket.IO broadcast đến client.
+   * Broadcast qua Redis Pub/Sub -> Socket.IO đến Client.
 2. **Ngăn chặn Overbooking bằng Ràng buộc Cơ sở dữ liệu:**
    * Bảng `room_nights` lưu thông tin từng đêm của từng phòng vật lý với khóa Unique `(room_id, night)`. Đảm bảo tuyệt đối không có 2 đơn đặt phòng nào có thể giữ trùng 1 phòng trong cùng một đêm.
 3. **Khử trùng lặp yêu cầu (Idempotency Control):**
    * Áp dụng Idempotency Key cho các tác vụ nhạy cảm như tạo Booking và thực hiện Thanh toán.
 4. **Tự động hóa xử lý hết hạn giữ phòng (Background Scheduler):**
-   * Cron job của Laravel tự động quét và giải phóng các phòng đang giữ tạm (Hold) quá 15 phút mà khách chưa hoàn tất thanh toán.
-
+   * Tự động quét và giải phóng các phòng đang giữ tạm (Hold) quá 15 phút mà khách chưa hoàn tất thanh toán.

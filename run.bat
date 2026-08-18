@@ -1,41 +1,30 @@
 @echo off
-setlocal
 cd /d "%~dp0"
 
-where docker >nul 2>&1
-if errorlevel 1 (
-    echo [Loi] Khong tim thay Docker trong he thong.
-    echo Vui long cai dat Docker Desktop tai: https://www.docker.com/products/docker-desktop/
-    pause
-    exit /b 1
+echo ======================================================================
+echo             KHOI DONG HE THONG STAYGO TREN WINDOWS
+echo ======================================================================
+echo.
+
+:: Kiem tra neu chua cai dat dependencies
+if not exist "backend\vendor" (
+    echo [Thong bao] Phat hien he thong chua duoc thiet lap.
+    echo Dang tu dong chay setup.bat de khoi tao du an...
+    echo.
+    call setup.bat
 )
 
-docker compose version >nul 2>&1
-if errorlevel 1 (
-    echo [Loi] Docker Compose khong san sang. Vui long cap nhat Docker Desktop.
-    pause
-    exit /b 1
-)
+echo Dang khoi chay 3 dich vu StayGo:
+echo   1. Backend Laravel 12 API (Port 8000)
+echo   2. Realtime WebSocket Server (Port 3001)
+echo   3. Frontend Vue 3 SPA (Port 3000)
+echo.
 
-docker info >nul 2>&1
-if errorlevel 1 (
-    echo [Loi] Docker Engine chua chay.
-    echo Hay mo ung dung Docker Desktop tren Windows va cho bieu tuong o goc duoi chuyen sang mau XANH LA CAY (Running).
-    pause
-    exit /b 1
-)
+start "StayGo - 1. Backend Server (8000)" cmd /k "cd /d %~dp0backend && php artisan serve"
+start "StayGo - 2. Realtime Service (3001)" cmd /k "cd /d %~dp0realtime && npm start"
+start "StayGo - 3. Frontend Web (3000)" cmd /k "cd /d %~dp0frontend && npm run dev"
 
-if not exist .env (
-    echo [Khoi tao] Chua tim thay file .env, dang tu dong tao tu .env.example...
-    copy .env.example .env >nul
-)
-
-echo [Bat dau] Dang khoi chay he thong StayGo bang Docker Compose...
-docker compose up --build
-
-if errorlevel 1 (
-    echo [Thong bao] Tien trinh dung hoac co loi.
-    pause
-)
-
-exit /b %errorlevel%
+echo Da khoi dong thanh cong tat ca dich vu!
+echo Mo trinh duyet va truy cap: http://localhost:3000
+echo.
+pause
