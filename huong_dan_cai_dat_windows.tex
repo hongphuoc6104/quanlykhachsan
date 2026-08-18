@@ -64,7 +64,7 @@
   pdftitle={Hướng dẫn cài đặt và chạy dự án StayGo trên Windows},
   pdfauthor={Hệ thống Đặt phòng Khách sạn StayGo},
   pdfsubject={Hướng dẫn cài đặt từng bước cho người mới bắt đầu},
-  pdfkeywords={Docker, Windows, Laravel 12, Vue 3, MySQL, MongoDB, Redis, StayGo}
+  pdfkeywords={Windows, Laravel 12, Vue 3, MySQL, MongoDB, Redis, StayGo}
 }
 
 % Cấu hình Header và Footer (chỉ để lại số trang ở footer)
@@ -178,46 +178,18 @@
 \small
 \textbf{Tên dự án:} Hệ thống Đặt phòng và Quản lý Khách sạn StayGo\\
 \textbf{Kiến trúc:} SPA Client-Server + Realtime Event-Driven + Polyglot Persistence\\
-\textbf{Công nghệ cốt lõi:} Laravel 12, Vue 3, Node.js 22, MySQL 8.0, MongoDB 8.0, Redis 7, Docker Compose\\
-\textbf{Mục tiêu tài liệu:} Giúp bất kỳ ai (dù chưa từng có kinh nghiệm lập trình) đều có thể tự tay cài đặt, khởi chạy hoàn chỉnh và trải nghiệm toàn bộ tính năng của hệ thống trên máy tính Windows chỉ trong \textbf{10 -- 15 phút}.
+\textbf{Công nghệ cốt lõi:} Laravel 12, Vue 3, Node.js 22, MySQL 8.0, MongoDB 8.0, Redis 7\\
+\textbf{Mục tiêu tài liệu:} Giúp bất kỳ ai đều có thể tự tay cài đặt, khởi chạy hoàn chỉnh và trải nghiệm toàn bộ tính năng của hệ thống trên máy tính Windows chỉ trong \textbf{5 -- 10 phút}.
 \end{tcolorbox}
 
 \vspace{1mm}
 
-% ==================== BƯỚC 1: CHUẨN BỊ MÔI TRƯỜNG ====================
-\section{BƯỚC 1: Chuẩn bị công cụ trên Windows (Yêu cầu duy nhất)}
-
-Toàn bộ hệ thống đã được đóng gói hoàn chỉnh bằng công nghệ Container (\textbf{Docker}), do đó bạn \textbf{KHÔNG CẦN} cài đặt thủ công PHP, Composer, Node.js, MySQL hay MongoDB vào máy. Bạn chỉ cần cài đặt duy nhất phần mềm \textbf{Docker Desktop}.
-
-\begin{stepbox}{Tải và cài đặt Docker Desktop for Windows}
-\begin{enumerate}[leftmargin=5mm,itemsep=1.5pt]
-  \item Truy cập trang chủ chính thức của Docker: \url{https://www.docker.com/products/docker-desktop/}
-  \item Bấm nút \textbf{"Download for Windows"} để tải file cài đặt \texttt{Docker Desktop Installer.exe}.
-  \item Mở file vừa tải lên để tiến hành cài đặt:
-    \begin{itemize}[itemsep=1pt]
-      \item Tại màn hình tùy chọn, hãy \textbf{đánh dấu tích} vào ô: \textbf{"Use WSL 2 instead of Hyper-V (recommended)"}.
-      \item Bấm \textbf{OK} và chờ tiến trình cài đặt hoàn tất.
-    \end{itemize}
-  \item Khi cài xong, nếu Docker yêu cầu khởi động lại máy tính (\textit{Restart}), hãy bấm \textbf{Restart Windows}.
-  \item Sau khi máy bật lại, mở ứng dụng \textbf{Docker Desktop} từ màn hình Desktop hoặc menu Start.
-  \item Chấp nhận điều khoản dịch vụ (\textit{Accept}) $\rightarrow$ Nhìn góc dưới bên trái của cửa sổ Docker Desktop, khi nào thấy \textbf{biểu tượng hình cá voi chuyển sang màu XANH LÁ CÂY (Engine running)} là Docker đã sẵn sàng hoạt động!
-\end{enumerate}
-\end{stepbox}
-
-\begin{warningbox}[Xử lý khi Docker báo thiếu WSL 2 Linux Kernel]
-Nếu Docker Desktop hiện thông báo \textit{"WSL 2 installation is incomplete"}, bạn chỉ cần mở \textbf{PowerShell (Run as Administrator)} và chạy lệnh sau:
-\begin{center}
-\codeinline{wsl --update} \quad hoặc \quad \codeinline{wsl --install}
-\end{center}
-Sau đó khởi động lại máy tính một lần nữa.
-\end{warningbox}
-
-% ==================== BƯỚC 2: TẢI MÃ NGUỒN ====================
-\section{BƯỚC 2: Tải mã nguồn dự án bằng Git Clone}
+% ==================== BƯỚC 1: TẢI MÃ NGUỒN ====================
+\section{BƯỚC 1: Tải mã nguồn dự án bằng Git Clone}
 
 \begin{stepbox}{Các thao tác tải mã nguồn và chuyển vào thư mục dự án}
 \begin{enumerate}[leftmargin=5mm,itemsep=2pt]
-  \item Mở cửa sổ dòng lệnh (\textbf{Command Prompt} hoặc \textbf{PowerShell}) trên máy tính (tại thư mục bạn muốn lưu dự án, ví dụ ổ \texttt{D:\textbackslash} hoặc Desktop).
+  \item Mở cửa sổ dòng lệnh (\textbf{Command Prompt} hoặc \textbf{PowerShell}) trên máy tính tại thư mục bạn muốn lưu dự án (ví dụ ổ \texttt{D:\textbackslash} hoặc Desktop).
   \item Sao chép và chạy lệnh sau để tải toàn bộ mã nguồn từ GitHub về máy:
 \begin{terminalcmd}{Tải mã nguồn từ GitHub về máy tính}
 git clone https://github.com/hongphuoc6104/quanlykhachsan.git
@@ -233,8 +205,8 @@ cd quanlykhachsan
 Nếu bạn đã lỡ tắt cửa sổ dòng lệnh: Hãy mở thư mục \texttt{quanlykhachsan} bằng \textbf{File Explorer} $\rightarrow$ Nhấp chuột trái vào \textbf{thanh địa chỉ đường dẫn} ở phía trên cùng $\rightarrow$ Gõ chữ \codeinline{cmd} rồi nhấn phím \textbf{Enter}. Cửa sổ dòng lệnh sẽ tự động mở ra ngay tại thư mục dự án.
 \end{tipbox}
 
-% ==================== BƯỚC 3: KIỂM TRA FILE CẤU HÌNH .ENV ====================
-\section{BƯỚC 3: Chuẩn bị file cấu hình môi trường (.env)}
+% ==================== BƯỚC 2: KIỂM TRA FILE CẤU HÌNH .ENV ====================
+\section{BƯỚC 2: Chuẩn bị file cấu hình môi trường (.env)}
 
 Ngay tại cửa sổ dòng lệnh trong thư mục \texttt{quanlykhachsan}, hãy tạo file \texttt{.env} từ file mẫu \texttt{.env.example}:
 
@@ -257,42 +229,41 @@ Copy-Item .env.example .env
 \textit{Ghi chú: Nếu máy tính bạn đã cài sẵn MySQL (như XAMPP/WampServer) đang chiếm cổng 3306, hãy mở file \texttt{.env} và đổi thành \codeinline{MYSQL\_HOST\_PORT=3307} hoặc tắt phần mềm XAMPP trước khi khởi chạy.}
 \end{notebox}
 
-% ==================== BƯỚC 4: KHỞI CHẠY DỰ ÁN ====================
-\section{BƯỚC 4: Khởi chạy toàn bộ hệ thống}
+% ==================== BƯỚC 3: KHỞI CHẠY DỰ ÁN ====================
+\section{BƯỚC 3: Khởi chạy toàn bộ hệ thống}
 
 Bạn có thể lựa chọn 1 trong 2 cách sau để khởi chạy:
 
-\subsection*{Cách 1: Click đúp chuột vào file \texttt{run.bat} (Siêu đơn giản)}
+\subsection*{Cách 1: Click đúp chuột vào file \texttt{run.bat} (Tự động hóa hoàn toàn)}
 \begin{enumerate}[leftmargin=5mm,itemsep=1pt]
-  \item Tìm file có tên \textbf{\texttt{run.bat}} trong thư mục dự án \texttt{quanlykhachsan}.
-  \item \textbf{Nhấp đúp chuột trái (Double-click)} vào file này.
-  \item Một cửa sổ màu đen sẽ tự động hiện lên, kiểm tra Docker và thực hiện toàn bộ việc cài đặt khởi chạy!
+  \item Mở thư mục dự án \texttt{quanlykhachsan} trên máy tính.
+  \item Tìm file có tên \textbf{\texttt{run.bat}} và \textbf{nhấp đúp chuột trái (Double-click)} vào file này.
+  \item Cửa sổ sẽ tự động thực hiện toàn bộ việc cấu hình, chuẩn bị cơ sở dữ liệu và khởi chạy các dịch vụ!
 \end{enumerate}
 
-\subsection*{Cách 2: Chạy lệnh Docker Compose từ cửa sổ dòng lệnh (Chuẩn kỹ thuật)}
+\subsection*{Cách 2: Chạy lệnh từ cửa sổ dòng lệnh}
 Tại cửa sổ CMD / PowerShell ở thư mục dự án, sao chép và dán lệnh sau:
 
-\begin{terminalcmd}{Khởi chạy toàn bộ 10 container dịch vụ cùng một lúc}
-docker compose up --build
+\begin{terminalcmd}{Khởi chạy toàn bộ hệ thống}
+run.bat
 \end{terminalcmd}
 
-\begin{terminalcmd}{Hoặc nếu muốn chạy ngầm dưới nền (không chiếm cửa sổ dòng lệnh):}
+\begin{terminalcmd}{Hoặc chạy lệnh compose:}
 docker compose up -d --build
 \end{terminalcmd}
 
 \begin{stepbox}{Hệ thống đang tự động làm những gì trong lần đầu chạy?}
-Khi bạn chạy lệnh trên lần đầu tiên, hãy kiên nhẫn đợi từ \textbf{2 đến 5 phút} (tùy vào tốc độ mạng). Hệ thống sẽ tự động thực hiện hoàn toàn các công việc sau:
+Khi bạn khởi chạy lần đầu tiên, hãy kiên nhẫn đợi từ \textbf{2 đến 5 phút} (tùy vào tốc độ mạng). Hệ thống sẽ tự động thực hiện hoàn toàn các công việc sau:
 \begin{enumerate}[leftmargin=5mm,itemsep=1pt]
-  \item Tự tải các hình ảnh Docker chính hãng: MySQL 8.0, MongoDB 8.0, Redis 7.0-alpine.
-  \item Tự động xây dựng môi trường PHP 8.2+ cho Laravel Backend và Node.js 22 cho Realtime / Vue 3 Frontend.
-  \item Khởi tạo Replica Set \texttt{rs0} cho MongoDB để hỗ trợ giao tác và stream.
+  \item Tự động xây dựng môi trường cho Backend Laravel 12 và Frontend Vue 3.
+  \item Khởi tạo các dịch vụ CSDL MySQL 8.0, MongoDB 8.0 (Replica Set \texttt{rs0}) và Redis 7.
   \item Tự động chạy lệnh tạo bảng CSDL (\textit{Migrations}) và nạp sẵn toàn bộ dữ liệu mẫu (\textit{Seeders}): Danh sách khách sạn, hình ảnh, phòng mẫu, dịch vụ, voucher và tài khoản demo.
-  \item Khi bạn thấy dòng chữ thông báo các container đều ở trạng thái \textbf{Healthy} hoặc Frontend báo \texttt{Local: http://localhost:3000} là hệ thống đã hoàn toàn sẵn sàng!
+  \item Khi bạn thấy thông báo hoàn tất hoặc Frontend báo \texttt{Local: http://localhost:3000} là hệ thống đã hoàn toàn sẵn sàng!
 \end{enumerate}
 \end{stepbox}
 
-% ==================== BƯỚC 5: TRUY CẬP VÀ TRẢI NGHIỆM ====================
-\section{BƯỚC 5: Truy cập và trải nghiệm các chức năng của hệ thống}
+% ==================== BƯỚC 4: TRUY CẬP VÀ TRẢI NGHIỆM ====================
+\section{BƯỚC 4: Truy cập và trải nghiệm các chức năng của hệ thống}
 
 Mở trình duyệt web của bạn (Google Chrome, Microsoft Edge, Firefox,...) và truy cập vào các địa chỉ sau:
 
@@ -339,8 +310,8 @@ Hệ thống đã có sẵn 5 tài khoản mẫu tương ứng với 5 vai trò 
   \end{tabularx}
 \end{table}
 
-% ==================== BƯỚC 6: CÁC CÂU LỆNH THƯỜNG DÙNG ====================
-\section{BƯỚC 6: Các câu lệnh quản trị và vận hành thường dùng}
+% ==================== BƯỚC 5: CÁC CÂU LỆNH THƯỜNG DÙNG ====================
+\section{BƯỚC 5: Các câu lệnh quản trị và vận hành thường dùng}
 
 Mỗi khi cần thao tác bảo trì, hãy mở cửa sổ CMD / PowerShell tại thư mục dự án và dùng các lệnh sau:
 
@@ -368,26 +339,21 @@ docker compose exec backend php artisan db:seed --force
 docker compose exec backend php artisan test
 \end{terminalcmd}
 
-% ==================== BƯỚC 7: XỬ LÝ LỖI THƯỜNG GẶP ====================
-\section{BƯỚC 7: Hướng dẫn xử lý các sự cố thường gặp trên Windows}
+% ==================== BƯỚC 6: XỬ LÝ LỖI THƯỜNG GẶP ====================
+\section{BƯỚC 6: Hướng dẫn xử lý các sự cố thường gặp trên Windows}
 
-\begin{warningbox}[1. Lỗi: "docker: command not found" hoặc "error during connect"]
-\textbf{Nguyên nhân:} Ứng dụng Docker Desktop chưa được bật hoặc đang trong quá trình khởi động.\\
-\textbf{Cách xử lý:} Hãy mở ứng dụng \textbf{Docker Desktop} từ Start Menu, nhìn xuống góc dưới bên trái khi nào thấy biểu tượng cá voi chuyển sang \textbf{màu xanh lá cây (Running)} thì mới chạy lệnh.
-\end{warningbox}
-
-\begin{warningbox}[2. Lỗi: "Bind for 0.0.0.0:3306 failed: port is already allocated"]
+\begin{warningbox}[1. Lỗi: "Bind for 0.0.0.0:3306 failed: port is already allocated"]
 \textbf{Nguyên nhân:} Cổng 3306 trên máy tính của bạn đã bị phần mềm khác chiếm dụng (thường do cài XAMPP, WampServer, hoặc dịch vụ MySQL cài trực tiếp trên Windows).\\
 \textbf{Cách xử lý 1:} Tắt phần mềm XAMPP / MySQL Service trên Windows.\\
 \textbf{Cách xử lý 2:} Mở file \texttt{.env} trong thư mục dự án, tìm dòng \texttt{MYSQL\_HOST\_PORT=3306} và đổi thành \codeinline{MYSQL\_HOST\_PORT=3307}, sau đó chạy lại lệnh \codeinline{docker compose up -d}.
 \end{warningbox}
 
-\begin{warningbox}[3. Lỗi: "Bind for 0.0.0.0:27017 failed: port is already allocated"]
+\begin{warningbox}[2. Lỗi: "Bind for 0.0.0.0:27017 failed: port is already allocated"]
 \textbf{Nguyên nhân:} Cổng 27017 bị trùng do máy tính đã cài sẵn MongoDB Service.\\
 \textbf{Cách xử lý:} Mở file \texttt{.env}, tìm dòng \texttt{MONGODB\_HOST\_PORT=27017} và đổi thành \codeinline{MONGODB\_HOST\_PORT=27018}, sau đó chạy lại lệnh.
 \end{warningbox}
 
-\begin{warningbox}[4. Lỗi: Trang web Frontend hiện màn hình trắng hoặc báo không kết nối được API]
+\begin{warningbox}[3. Lỗi: Trang web Frontend hiện màn hình trắng hoặc báo không kết nối được API]
 \textbf{Nguyên nhân:} Trình duyệt chưa tải kịp hoặc Backend container đang trong quá trình nạp dữ liệu migration.\\
 \textbf{Cách xử lý:} Đợi khoảng 30 giây rồi nhấn \codeinline{Ctrl + F5} trên trình duyệt để tải lại trang. Đảm bảo file \texttt{.env} có cấu hình \codeinline{VITE\_API\_BASE\_URL=http://localhost:8000/api/v1}.
 \end{warningbox}
