@@ -1,0 +1,431 @@
+% !TEX program = xelatex
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{fontspec}
+\defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\IfFontExistsTF{Times New Roman}{
+  \setmainfont{Times New Roman}
+}{
+  \setmainfont{DejaVu Serif}
+}
+\IfFontExistsTF{Arial}{
+  \setsansfont{Arial}
+}{
+  \setsansfont{DejaVu Sans}
+}
+\setmonofont{DejaVu Sans Mono}[Scale=0.82]
+
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm,footskip=0.9cm]{geometry}
+\usepackage{setspace}
+\setstretch{1.15}
+\usepackage{indentfirst}
+\setlength{\parindent}{0cm}
+\setlength{\parskip}{4.5pt}
+
+\usepackage[table]{xcolor}
+% Bảng màu chuyên nghiệp & hiện đại
+\definecolor{PrimaryNavy}{HTML}{0F172A}
+\definecolor{AccentBlue}{HTML}{1D4ED8}
+\definecolor{SoftBlueBg}{HTML}{F8FAFC}
+\definecolor{BorderBlue}{HTML}{CBD5E1}
+\definecolor{TerminalBg}{HTML}{0F172A}
+\definecolor{TerminalBorder}{HTML}{334155}
+\definecolor{TerminalText}{HTML}{F8FAFC}
+\definecolor{TerminalGreen}{HTML}{22C55E}
+\definecolor{TerminalPrompt}{HTML}{38BDF8}
+\definecolor{NoteBg}{HTML}{F0FDF4}
+\definecolor{NoteBorder}{HTML}{86EFAC}
+\definecolor{NoteText}{HTML}{166534}
+\definecolor{WarnBg}{HTML}{FEF2F2}
+\definecolor{WarnBorder}{HTML}{FECACA}
+\definecolor{WarnText}{HTML}{991B1B}
+\definecolor{TipBg}{HTML}{FFFBEB}
+\definecolor{TipBorder}{HTML}{FDE68A}
+\definecolor{TipText}{HTML}{92400E}
+\definecolor{TableHeader}{HTML}{1E293B}
+\definecolor{TableSubHeader}{HTML}{F8FAFC}
+\definecolor{InlineCodeBg}{HTML}{F1F5F9}
+
+\usepackage{graphicx}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{listings}
+\usepackage[most]{tcolorbox}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{microtype}
+\usepackage{hyperref}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=AccentBlue,
+  urlcolor=AccentBlue,
+  pdftitle={Hướng dẫn cài đặt và chạy dự án StayGo trên Windows},
+  pdfauthor={Hệ thống Đặt phòng Khách sạn StayGo},
+  pdfsubject={Hướng dẫn cài đặt từng bước cho người mới bắt đầu},
+  pdfkeywords={Docker, Windows, Laravel 12, Vue 3, MySQL, MongoDB, Redis, StayGo}
+}
+
+% Cấu hình Header và Footer
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\fontsize{8.5}{10.5}\selectfont\color{gray}\textbf{STAYGO HOTEL SYSTEM} -- Hướng dẫn cài đặt trên Windows}
+\fancyhead[R]{\fontsize{8.5}{10.5}\selectfont\color{gray}Dành cho người mới bắt đầu}
+\fancyfoot[L]{\fontsize{8.5}{10.5}\selectfont\color{gray}Tài liệu hướng dẫn triển khai hệ thống}
+\fancyfoot[R]{\fontsize{8.5}{10.5}\selectfont\color{gray}Trang \textbf{\thepage}}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+% Định dạng tiêu đề các mục
+\titleformat{\section}
+  {\bfseries\color{PrimaryNavy}\fontsize{13.5}{16.5}\selectfont}
+  {\thesection.}{0.5em}{}
+\titlespacing*{\section}{0pt}{10pt}{3pt}
+
+\titleformat{\subsection}
+  {\bfseries\color{AccentBlue}\fontsize{11}{13.5}\selectfont}
+  {\thesubsection}{0.5em}{}
+\titlespacing*{\subsection}{0pt}{7pt}{2pt}
+
+% Cấu hình TColorBox
+% 1. Hộp lệnh Terminal đẹp mắt (Dành riêng để Copy)
+\newtcolorbox{terminalcmd}[2][]{
+  enhanced,
+  breakable,
+  colback=TerminalBg,
+  colframe=TerminalBorder,
+  arc=2.5mm,
+  boxrule=0.8pt,
+  left=4mm,right=4mm,top=2.5mm,bottom=2.5mm,
+  fonttitle=\sffamily\bfseries\small, title={\textcolor{white}{[LỆNH COPY CHẠY] -- }\textcolor{TerminalPrompt}{#2}},
+  coltitle=white,
+  attach boxed title to top left={yshift=-2.2mm,xshift=4mm},
+  boxed title style={boxrule=0pt,colframe=AccentBlue,colback=AccentBlue,arc=1.2mm},
+  fontupper=\ttfamily\color{TerminalText}\small,
+  #1
+}
+
+% 2. Hộp từng bước (Step Box)
+\newtcolorbox{stepbox}[2][]{
+  enhanced,
+  breakable,
+  colback=SoftBlueBg,
+  colframe=BorderBlue,
+  arc=2mm,
+  boxrule=0.7pt,
+  left=4mm,right=4mm,top=2.5mm,bottom=2.5mm,
+  title={\bfseries\color{PrimaryNavy}#2},
+  coltitle=PrimaryNavy,
+  attach boxed title to top left={yshift=-2mm,xshift=3mm},
+  boxed title style={boxrule=0.5pt,colframe=BorderBlue,colback=white,arc=1.2mm},
+  #1
+}
+
+% 3. Hộp Lưu ý (Note Box)
+\newtcolorbox{notebox}[1][LƯU Ý QUAN TRỌNG]{
+  enhanced,
+  breakable,
+  colback=NoteBg,
+  colframe=NoteBorder,
+  arc=2mm,
+  boxrule=0.7pt,
+  left=3.5mm,right=3.5mm,top=2mm,bottom=2mm,
+  title={\bfseries\color{NoteText}[GHI CHÚ] #1},
+  coltitle=NoteText,
+  fontupper=\color{NoteText}\small
+}
+
+% 4. Hộp Cảnh báo / Khắc phục lỗi (Warning Box)
+\newtcolorbox{warningbox}[1][CẢNH BÁO / KHẮC PHỤC SỰ CỐ]{
+  enhanced,
+  breakable,
+  colback=WarnBg,
+  colframe=WarnBorder,
+  arc=2mm,
+  boxrule=0.7pt,
+  left=3.5mm,right=3.5mm,top=2mm,bottom=2mm,
+  title={\bfseries\color{WarnText}[CẢNH BÁO] #1},
+  coltitle=WarnText,
+  fontupper=\color{WarnText}\small
+}
+
+% 5. Hộp Mẹo thực hành (Tip Box)
+\newtcolorbox{tipbox}[1][MẸO THỰC HÀNH NHANH]{
+  enhanced,
+  breakable,
+  colback=TipBg,
+  colframe=TipBorder,
+  arc=2mm,
+  boxrule=0.7pt,
+  left=3.5mm,right=3.5mm,top=2mm,bottom=2mm,
+  title={\bfseries\color{TipText}[MẸO HAY] #1},
+  coltitle=TipText,
+  fontupper=\color{TipText}\small
+}
+
+\newcommand{\codeinline}[1]{\colorbox{InlineCodeBg}{\textcolor{AccentBlue}{\texttt{#1}}}}
+
+\begin{document}
+
+% ==================== BÌA TÀI LIỆU TIÊU CHUẨN ====================
+\begin{center}
+  \vspace*{1mm}
+  {\fontsize{9.5}{11.5}\selectfont\bfseries\color{AccentBlue} TÀI LIỆU HƯỚNG DẪN KỸ THUẬT VÀ TRIỂN KHAI PHẦN MỀM\par}
+  \vspace{2mm}
+  {\fontsize{17}{21}\selectfont\bfseries\color{PrimaryNavy} HƯỚNG DẪN CÀI ĐẶT VÀ KHỞI CHẠY DỰ ÁN\\TRÊN HỆ ĐIỀU HÀNH WINDOWS\par}
+  \vspace{1.5mm}
+  {\fontsize{10.5}{13.5}\selectfont\color{gray} (Tài liệu chi tiết từng bước từ A đến Z -- Dành cho người mới bắt đầu)\par}
+  \vspace{2mm}
+  \noindent\rule{0.6\textwidth}{0.8pt}
+  \vspace{2mm}
+\end{center}
+
+\begin{tcolorbox}[colback=white,colframe=BorderBlue,arc=2mm,boxrule=0.7pt,left=4mm,right=4mm,top=2.5mm,bottom=2.5mm]
+\small
+\textbf{Tên dự án:} Hệ thống Đặt phòng và Quản lý Khách sạn StayGo (\texttt{DatPhong v2})\\
+\textbf{Kiến trúc:} SPA Client-Server + Realtime Event-Driven + Polyglot Persistence\\
+\textbf{Công nghệ cốt lõi:} Laravel 12, Vue 3, Node.js 22, MySQL 8.0, MongoDB 8.0, Redis 7, Docker Compose\\
+\textbf{Mục tiêu tài liệu:} Giúp bất kỳ ai (dù chưa từng có kinh nghiệm lập trình) đều có thể tự tay cài đặt, khởi chạy hoàn chỉnh và trải nghiệm toàn bộ tính năng của hệ thống trên máy tính Windows chỉ trong \textbf{10 -- 15 phút}.
+\end{tcolorbox}
+
+\vspace{1mm}
+
+% ==================== BƯỚC 1: CHUẨN BỊ MÔI TRƯỜNG ====================
+\section{BƯỚC 1: Chuẩn bị công cụ trên Windows (Yêu cầu duy nhất)}
+
+Toàn bộ hệ thống đã được đóng gói hoàn chỉnh bằng công nghệ Container (\textbf{Docker}), do đó bạn \textbf{KHÔNG CẦN} cài đặt thủ công PHP, Composer, Node.js, MySQL hay MongoDB vào máy. Bạn chỉ cần cài đặt duy nhất phần mềm \textbf{Docker Desktop}.
+
+\begin{stepbox}{1.1. Kiểm tra cấu hình máy tính Windows}
+\begin{itemize}[leftmargin=5mm,itemsep=1pt]
+  \item \textbf{Hệ điều hành:} Windows 10 (64-bit: Pro, Enterprise hoặc Home từ build 19041+) hoặc Windows 11.
+  \item \textbf{Bộ nhớ RAM:} Tối thiểu 8 GB RAM (Khuyến nghị 16 GB để chạy mượt mà tất cả các dịch vụ).
+  \item \textbf{Bật ảo hóa CPU (Virtualization):} Nhấn tổ hợp phím \codeinline{Ctrl + Shift + Esc} để mở \textbf{Task Manager} $\rightarrow$ chọn tab \textbf{Performance} $\rightarrow$ mục \textbf{CPU} $\rightarrow$ kiểm tra dòng \textbf{Virtualization: Enabled} (Nếu đang Disabled, hãy vào BIOS máy tính để bật Intel VT-x hoặc AMD-V).
+\end{itemize}
+\end{stepbox}
+
+\begin{stepbox}{1.2. Tải và cài đặt Docker Desktop for Windows}
+\begin{enumerate}[leftmargin=5mm,itemsep=1.5pt]
+  \item Truy cập trang chủ chính thức của Docker: \url{https://www.docker.com/products/docker-desktop/}
+  \item Bấm nút \textbf{"Download for Windows"} để tải file cài đặt \texttt{Docker Desktop Installer.exe}.
+  \item Mở file vừa tải lên để tiến hành cài đặt:
+    \begin{itemize}[itemsep=1pt]
+      \item Tại màn hình tùy chọn, hãy \textbf{đánh dấu tích} vào ô: \textbf{"Use WSL 2 instead of Hyper-V (recommended)"}.
+      \item Bấm \textbf{OK} và chờ tiến trình cài đặt hoàn tất.
+    \end{itemize}
+  \item Khi cài xong, nếu Docker yêu cầu khởi động lại máy tính (\textit{Restart}), hãy bấm \textbf{Restart Windows}.
+  \item Sau khi máy bật lại, mở ứng dụng \textbf{Docker Desktop} từ màn hình Desktop hoặc menu Start.
+  \item Chấp nhận điều khoản dịch vụ (\textit{Accept}) $\rightarrow$ Nhìn góc dưới bên trái của cửa sổ Docker Desktop, khi nào thấy \textbf{biểu tượng hình cá voi chuyển sang màu XANH LÁ CÂY (Engine running)} là Docker đã sẵn sàng hoạt động!
+\end{enumerate}
+\end{stepbox}
+
+\begin{warningbox}[Xử lý khi Docker báo thiếu WSL 2 Linux Kernel]
+Nếu Docker Desktop hiện thông báo \textit{"WSL 2 installation is incomplete"}, bạn chỉ cần mở \textbf{PowerShell (Run as Administrator)} và chạy lệnh sau:
+\begin{center}
+\codeinline{wsl --update} \quad hoặc \quad \codeinline{wsl --install}
+\end{center}
+Sau đó khởi động lại máy tính một lần nữa.
+\end{warningbox}
+
+% ==================== BƯỚC 2: TẢI MÃ NGUỒN ====================
+\section{BƯỚC 2: Tải mã nguồn dự án về máy tính}
+
+Bạn có thể chọn 1 trong 2 cách đơn giản sau để tải mã nguồn dự án:
+
+\subsection*{Cách A: Tải file nén ZIP (Dễ nhất cho người mới bắt đầu)}
+\begin{enumerate}[leftmargin=5mm,itemsep=1pt]
+  \item Truy cập kho mã nguồn GitHub: \url{https://github.com/Phatjhhoq8/datphongkhachsan}
+  \item Bấm nút màu xanh \textbf{"<> Code"} $\rightarrow$ Chọn \textbf{"Download ZIP"}.
+  \item Giải nén file vừa tải vào một thư mục trên máy bạn (Ví dụ: \texttt{D:\textbackslash qlks} hoặc \texttt{C:\textbackslash datphongkhachsan}).
+\end{enumerate}
+
+\subsection*{Cách B: Sử dụng lệnh Git Clone}
+Mở cửa sổ dòng lệnh (\textbf{Command Prompt} hoặc \textbf{PowerShell}) và chạy lệnh:
+
+\begin{terminalcmd}{Sao chép mã nguồn từ GitHub về máy tính}
+git clone https://github.com/Phatjhhoq8/datphongkhachsan.git
+cd datphongkhachsan
+\end{terminalcmd}
+
+% ==================== BƯỚC 3: MỞ THƯ MỤC DỰ ÁN TRÊN WINDOWS ====================
+\section{BƯỚC 3: Mở cửa sổ dòng lệnh tại thư mục dự án}
+
+Để máy tính hiểu bạn muốn thao tác với dự án, hãy mở cửa sổ dòng lệnh ngay tại thư mục dự án:
+
+\begin{tipbox}[Mẹo mở cửa sổ dòng lệnh siêu nhanh trong 2 giây trên Windows]
+\begin{enumerate}[leftmargin=5mm,itemsep=1pt]
+  \item Mở thư mục dự án bằng \textbf{File Explorer} (thư mục có chứa các file \texttt{docker-compose.yml}, \texttt{run.bat}, \texttt{backend}, \texttt{frontend}).
+  \item Nhấp chuột trái vào \textbf{thanh địa chỉ đường dẫn} ở phía trên cùng của cửa sổ File Explorer (nơi hiện đường dẫn thư mục).
+  \item Gõ chữ \codeinline{cmd} hoặc \codeinline{powershell} rồi nhấn phím \textbf{Enter}.
+  \item Ngay lập tức, một cửa sổ dòng lệnh màu đen sẽ mở ra đúng ngay tại thư mục dự án của bạn!
+\end{enumerate}
+\end{tipbox}
+
+% ==================== BƯỚC 4: KIỂM TRA FILE CẤU HÌNH .ENV ====================
+\section{BƯỚC 4: Kiểm tra và chuẩn bị file cấu hình môi trường (.env)}
+
+Thư mục dự án đã có sẵn file mẫu \texttt{.env.example}. Hãy chắc chắn bạn đã có file \texttt{.env}:
+
+\begin{terminalcmd}{Tạo file .env từ file mẫu trên Windows (chạy trong CMD)}
+copy .env.example .env
+\end{terminalcmd}
+
+\begin{terminalcmd}{Nếu bạn dùng PowerShell, chạy lệnh này để copy:}
+Copy-Item .env.example .env
+\end{terminalcmd}
+
+\begin{notebox}[Các cổng kết nối mạng mặc định của hệ thống]
+\begin{itemize}[leftmargin=5mm,itemsep=1pt]
+  \item \textbf{Cổng 3000:} Dành cho giao diện Web người dùng (Frontend Vue 3).
+  \item \textbf{Cổng 8000:} Dành cho máy chủ xử lý dữ liệu (Backend Laravel 12 API).
+  \item \textbf{Cổng 3001:} Dành cho máy chủ thời gian thực (Realtime WebSocket Socket.IO).
+  \item \textbf{Cổng 3306:} Dành cho Cơ sở dữ liệu MySQL 8.0.
+  \item \textbf{Cổng 27017:} Dành cho Cơ sở dữ liệu MongoDB 8.0.
+\end{itemize}
+\textit{Ghi chú: Nếu máy tính bạn đã cài sẵn MySQL (như XAMPP/WampServer) đang chiếm cổng 3306, hãy mở file \texttt{.env} và đổi thành \codeinline{MYSQL\_HOST\_PORT=3307} hoặc tắt phần mềm XAMPP trước khi khởi chạy.}
+\end{notebox}
+
+% ==================== BƯỚC 5: KHỞI CHẠY DỰ ÁN ====================
+\section{BƯỚC 5: Khởi chạy toàn bộ hệ thống (Chỉ 1 thao tác)}
+
+Bạn có thể lựa chọn 1 trong 2 cách sau để khởi chạy:
+
+\subsection*{Cách 1: Click đúp chuột vào file \texttt{run.bat} (Siêu đơn giản)}
+\begin{enumerate}[leftmargin=5mm,itemsep=1pt]
+  \item Tìm file có tên \textbf{\texttt{run.bat}} trong thư mục dự án.
+  \item \textbf{Nhấp đúp chuột trái (Double-click)} vào file này.
+  \item Một cửa sổ màu đen sẽ tự động hiện lên, kiểm tra Docker và thực hiện toàn bộ việc cài đặt khởi chạy!
+\end{enumerate}
+
+\subsection*{Cách 2: Chạy lệnh Docker Compose từ cửa sổ dòng lệnh (Chuẩn kỹ thuật)}
+Tại cửa sổ CMD / PowerShell đã mở ở Bước 3, sao chép và dán lệnh sau:
+
+\begin{terminalcmd}{Khởi chạy toàn bộ 10 container dịch vụ cùng một lúc}
+docker compose up --build
+\end{terminalcmd}
+
+\begin{terminalcmd}{Hoặc nếu muốn chạy ngầm dưới nền (không chiếm cửa sổ dòng lệnh):}
+docker compose up -d --build
+\end{terminalcmd}
+
+\begin{stepbox}{Hệ thống đang tự động làm những gì trong lần đầu chạy?}
+Khi bạn chạy lệnh trên lần đầu tiên, hãy kiên nhẫn đợi từ \textbf{2 đến 5 phút} (tùy vào tốc độ mạng). Hệ thống sẽ tự động thực hiện hoàn toàn các công việc sau:
+\begin{enumerate}[leftmargin=5mm,itemsep=1pt]
+  \item Tự tải các hình ảnh Docker chính hãng: MySQL 8.0, MongoDB 8.0, Redis 7.0-alpine.
+  \item Tự động xây dựng môi trường PHP 8.2+ cho Laravel Backend và Node.js 22 cho Realtime / Vue 3 Frontend.
+  \item Khởi tạo Replica Set \texttt{rs0} cho MongoDB để hỗ trợ giao tác và stream.
+  \item Tự động chạy lệnh tạo bảng CSDL (\textit{Migrations}) và nạp sẵn toàn bộ dữ liệu mẫu (\textit{Seeders}): Danh sách khách sạn, hình ảnh, phòng mẫu, dịch vụ, voucher và tài khoản demo.
+  \item Khi bạn thấy dòng chữ thông báo các container đều ở trạng thái \textbf{Healthy} hoặc Frontend báo \texttt{Local: http://localhost:3000} là hệ thống đã hoàn toàn sẵn sàng!
+\end{enumerate}
+\end{stepbox}
+
+% ==================== BƯỚC 6: TRUY CẬP VÀ TRẢI NGHIỆM ====================
+\section{BƯỚC 6: Truy cập và trải nghiệm các chức năng của hệ thống}
+
+Mở trình duyệt web của bạn (Google Chrome, Microsoft Edge, Firefox,...) và truy cập vào các địa chỉ sau:
+
+\begin{table}[htbp]
+  \centering
+  \fontsize{9}{11.5}\selectfont
+  \begin{tabularx}{\textwidth}{>{\bfseries\color{AccentBlue}}p{32mm}>{\ttfamily\color{PrimaryNavy}}p{52mm}>{\raggedright\arraybackslash}X}
+    \toprule
+    \rowcolor{TableHeader}
+    \textcolor{white}{\textbf{Thành phần}} & \textcolor{white}{\textbf{Địa chỉ URL truy cập}} & \textcolor{white}{\textbf{Mô tả chức năng}} \\
+    \midrule
+    \rowcolor{TableSubHeader}
+    Giao diện Web chính & http://localhost:3000 & Trang chủ đặt phòng dành cho khách hàng và đăng nhập quản trị \\
+    Cổng Backend API & http://localhost:8000/api/v1 & Cổng giao tiếp REST API v1 cho toàn bộ hệ thống \\
+    Kiểm tra Backend & http://localhost:8000/up & Trang theo dõi trạng thái hoạt động của Laravel \\
+    Kiểm tra Realtime & http://localhost:3001/health & Trang theo dõi trạng thái kết nối WebSocket Socket.IO \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\subsection{Danh sách tài khoản dùng thử (Đã tích hợp sẵn phân quyền RBAC)}
+
+Hệ thống đã có sẵn 5 tài khoản mẫu tương ứng với 5 vai trò khác nhau trong quy trình vận hành khách sạn. Bạn hãy đăng nhập thử từng tài khoản tại trang \url{http://localhost:3000/login} để trải nghiệm:
+
+\begin{table}[htbp]
+  \centering
+  \fontsize{8.5}{11}\selectfont
+  \begin{tabularx}{\textwidth}{>{\bfseries}p{22mm}>{\ttfamily}p{44mm}>{\ttfamily}p{26mm}>{\raggedright\arraybackslash}X}
+    \toprule
+    \rowcolor{TableHeader}
+    \textcolor{white}{\textbf{Vai trò (Role)}} & \textcolor{white}{\textbf{Email đăng nhập}} & \textcolor{white}{\textbf{Mật khẩu}} & \textcolor{white}{\textbf{Tính năng kiểm thử nổi bật}} \\
+    \midrule
+    \rowcolor{white}
+    Super Admin & admin@gmail.com & admin123 & Toàn quyền hệ thống, quản lý tất cả khách sạn, nhân sự, cấu hình hệ thống. \\
+    \rowcolor{TableSubHeader}
+    Quản lý & manager@gmail.com & manager123 & Quản lý khách sạn "An Nhiên Đà Lạt", sửa giá phòng, thêm voucher, dịch vụ, xem báo cáo doanh thu. \\
+    \rowcolor{white}
+    Lễ tân & receptionist@gmail.com & receptionist123 & \textbf{Xem sơ đồ phòng trực quan Realtime}, xử lý Check-in/Check-out, tạo đơn tại quầy, xuất hóa đơn. \\
+    \rowcolor{TableSubHeader}
+    Kế toán & accountant@gmail.com & accountant123 & Quản lý danh sách hóa đơn, đối soát dòng tiền thanh toán, kiểm tra hoàn tiền khi hủy phòng. \\
+    \rowcolor{white}
+    Khách hàng & customer@gmail.com & customer123 & Tìm kiếm phòng theo ngày, đặt phòng, chọn voucher, thanh toán giả lập (VietQR/Card), chat CSKH realtime. \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+% ==================== BƯỚC 7: CÁC CÂU LỆNH THƯỜNG DÙNG ====================
+\section{BƯỚC 7: Các câu lệnh quản trị và vận hành thường dùng}
+
+Mỗi khi cần thao tác bảo trì, hãy mở cửa sổ CMD / PowerShell tại thư mục dự án và dùng các lệnh sau:
+
+\begin{terminalcmd}{Xem danh sách và trạng thái hoạt động của các dịch vụ}
+docker compose ps
+\end{terminalcmd}
+
+\begin{terminalcmd}{Xem nhật ký (Logs) thời gian thực của hệ thống khi cần kiểm tra lỗi}
+docker compose logs -f
+\end{terminalcmd}
+
+\begin{terminalcmd}{Tạm dừng và tắt toàn bộ hệ thống một cách an toàn}
+docker compose down
+\end{terminalcmd}
+
+\begin{terminalcmd}{Bật lại hệ thống khi đã tải xong lần trước (khởi động cực nhanh)}
+docker compose up -d
+\end{terminalcmd}
+
+\begin{terminalcmd}{Khôi phục / Nạp lại toàn bộ dữ liệu mẫu (Seeder) về trạng thái ban đầu}
+docker compose exec backend php artisan db:seed --force
+\end{terminalcmd}
+
+\begin{terminalcmd}{Chạy toàn bộ bộ kiểm thử tự động (Unit Test / Feature Test) của Backend}
+docker compose exec backend php artisan test
+\end{terminalcmd}
+
+% ==================== BƯỚC 8: XỬ LÝ LỖI THƯỜNG GẶP ====================
+\section{BƯỚC 8: Hướng dẫn xử lý các sự cố thường gặp trên Windows}
+
+\begin{warningbox}[1. Lỗi: "docker: command not found" hoặc "error during connect"]
+\textbf{Nguyên nhân:} Ứng dụng Docker Desktop chưa được bật hoặc đang trong quá trình khởi động.\\
+\textbf{Cách xử lý:} Hãy mở ứng dụng \textbf{Docker Desktop} từ Start Menu, nhìn xuống góc dưới bên trái khi nào thấy biểu tượng cá voi chuyển sang \textbf{màu xanh lá cây (Running)} thì mới chạy lệnh.
+\end{warningbox}
+
+\begin{warningbox}[2. Lỗi: "Bind for 0.0.0.0:3306 failed: port is already allocated"]
+\textbf{Nguyên nhân:} Cổng 3306 trên máy tính của bạn đã bị phần mềm khác chiếm dụng (thường do cài XAMPP, WampServer, hoặc dịch vụ MySQL cài trực tiếp trên Windows).\\
+\textbf{Cách xử lý 1:} Tắt phần mềm XAMPP / MySQL Service trên Windows.\\
+\textbf{Cách xử lý 2:} Mở file \texttt{.env} trong thư mục dự án, tìm dòng \texttt{MYSQL\_HOST\_PORT=3306} và đổi thành \codeinline{MYSQL\_HOST\_PORT=3307}, sau đó chạy lại lệnh \codeinline{docker compose up -d}.
+\end{warningbox}
+
+\begin{warningbox}[3. Lỗi: "Bind for 0.0.0.0:27017 failed: port is already allocated"]
+\textbf{Nguyên nhân:} Cổng 27017 bị trùng do máy tính đã cài sẵn MongoDB Service.\\
+\textbf{Cách xử lý:} Mở file \texttt{.env}, tìm dòng \texttt{MONGODB\_HOST\_PORT=27017} và đổi thành \codeinline{MONGODB\_HOST\_PORT=27018}, sau đó chạy lại lệnh.
+\end{warningbox}
+
+\begin{warningbox}[4. Lỗi: Trang web Frontend hiện màn hình trắng hoặc báo không kết nối được API]
+\textbf{Nguyên nhân:} Trình duyệt chưa tải kịp hoặc Backend container đang trong quá trình nạp dữ liệu migration.\\
+\textbf{Cách xử lý:} Đợi khoảng 30 giây rồi nhấn \codeinline{Ctrl + F5} trên trình duyệt để tải lại trang. Đảm bảo file \texttt{.env} có cấu hình \codeinline{VITE\_API\_BASE\_URL=http://localhost:8000/api/v1}.
+\end{warningbox}
+
+\vspace{3mm}
+\begin{center}
+  \noindent\rule{0.6\textwidth}{0.8pt}\\
+  \vspace{1.5mm}
+  {\small\color{gray}Chúc bạn cài đặt thành công và có trải nghiệm tuyệt vời với hệ thống StayGo!\\
+  Nếu cần biên dịch lại tài liệu này sang PDF: Chạy lệnh \codeinline{xelatex huong\_dan\_cai\_dat\_windows.tex}}
+\end{center}
+
+\end{document}
