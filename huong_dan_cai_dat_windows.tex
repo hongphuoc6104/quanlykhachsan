@@ -190,24 +190,13 @@ cd quanlykhachsan
 % ==================== BƯỚC 3: THIẾT LẬP DỰ ÁN TỰ ĐỘNG ====================
 \section{BƯỚC 3: Khởi tạo và thiết lập dự án tự động (Chạy file setup.bat)}
 
-Để tiết kiệm thời gian và tránh các thao tác dòng lệnh phức tạp, dự án đã chuẩn bị sẵn file kịch bản tự động hóa \textbf{\texttt{setup.bat}}.
-
-\begin{stepbox}{Thao tác thiết lập toàn bộ hệ thống trong 1 bước}
-\begin{enumerate}[leftmargin=5mm,itemsep=2pt]
-  \item Đảm bảo dịch vụ \textbf{MySQL} (trên XAMPP/Laragon) và \textbf{MongoDB} đã được bật trên máy tính.
-  \item Mở thư mục dự án \texttt{quanlykhachsan} và \textbf{nhấp đúp chuột (Double-click)} vào file \textbf{\texttt{setup.bat}} (hoặc gõ \codeinline{setup.bat} trong cửa sổ dòng lệnh).
-  \item File script sẽ tự động thực hiện hoàn toàn các công việc sau từ A đến Z:
-    \begin{itemize}[itemsep=1.5pt]
-      \item Kiểm tra môi trường PHP, Composer, Node.js và npm trên máy.
-      \item Tự động khởi tạo file cấu hình \texttt{.env} cho cả Backend và Frontend từ file mẫu.
-      \item Cài đặt toàn bộ các gói thư viện PHP qua Composer (\texttt{composer install}).
-      \item Sinh khóa bảo mật ứng dụng (\codeinline{php artisan key:generate}).
-      \item Tạo liên kết thư mục lưu trữ hình ảnh (\codeinline{php artisan storage:link}).
-      \item Tự động chạy lệnh tạo bảng CSDL (\textit{Migrations}) và nạp sẵn toàn bộ dữ liệu mẫu (\textit{Seeders}).
-      \item Cài đặt toàn bộ dependencies Node.js cho Realtime Service và Frontend Vue 3.
-    \end{itemize}
-\end{enumerate}
-\end{stepbox}
+Nhấp đúp chuột vào file \textbf{\texttt{setup.bat}} trong thư mục dự án (hoặc gõ lệnh \codeinline{setup.bat} trong CMD). Script sẽ tự động cài đặt và thiết lập toàn bộ hệ thống:
+\begin{itemize}[leftmargin=5mm,itemsep=1.5pt]
+  \item Tự động tạo file cấu hình \texttt{.env} cho Backend và Frontend.
+  \item Cài đặt toàn bộ dependencies (\texttt{composer install}, \texttt{npm install}).
+  \item Sinh Application Key và liên kết thư mục \texttt{storage:link}.
+  \item Tạo bảng CSDL và nạp sẵn dữ liệu mẫu (\codeinline{php artisan migrate --seed}).
+\end{itemize}
 
 % ==================== BƯỚC 4: KHỞI CHẠY DỰ ÁN ====================
 \section{BƯỚC 4: Khởi chạy toàn bộ hệ thống}
