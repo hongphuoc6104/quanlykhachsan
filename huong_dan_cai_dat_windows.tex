@@ -283,28 +283,7 @@ Hệ thống đã có sẵn 5 tài khoản mẫu tương ứng với 5 vai trò 
   \end{tabularx}
 \end{table}
 
-% ==================== BƯỚC 6: XỬ LÝ LỖI THƯỜNG GẶP ====================
-\section{BƯỚC 6: Hướng dẫn xử lý các sự cố thường gặp trên Windows}
 
-\begin{warningbox}[1. Lỗi: "could not find driver" khi chạy php artisan migrate]
-\textbf{Nguyên nhân:} PHP chưa bật extension kết nối cơ sở dữ liệu MySQL.\\
-\textbf{Cách xử lý:} Mở file \texttt{php.ini} (trong thư mục cài đặt PHP hoặc XAMPP), tìm dòng \texttt{;extension=pdo\_mysql} và xóa dấu chấm phẩy \texttt{;} ở đầu dòng thành \codeinline{extension=pdo\_mysql}, sau đó lưu file lại.
-\end{warningbox}
-
-\begin{warningbox}[2. Lỗi: "Class 'MongoDB\textbackslash Driver\textbackslash Manager' not found"]
-\textbf{Nguyên nhân:} PHP chưa cài đặt extension MongoDB trên Windows.\\
-\textbf{Cách xử lý:} Tải file \texttt{php\_mongodb.dll} tương ứng với phiên bản PHP từ PECL (\url{https://pecl.php.net/package/mongodb}), chép vào thư mục \texttt{php/ext/}, sau đó thêm dòng \codeinline{extension=mongodb} vào file \texttt{php.ini}.
-\end{warningbox}
-
-\begin{warningbox}[3. Lỗi: "Access denied for user 'root'@'localhost'"]
-\textbf{Nguyên nhân:} Sai thông tin tài khoản hoặc mật khẩu kết nối MySQL.\\
-\textbf{Cách xử lý:} Mở file \texttt{backend/.env}, kiểm tra lại các thông số \codeinline{DB\_USERNAME} và \codeinline{DB\_PASSWORD} cho trùng khớp với tài khoản MySQL trên máy tính của bạn.
-\end{warningbox}
-
-\begin{warningbox}[4. Lỗi: Không tải được dữ liệu phòng hoặc báo lỗi mạng ở Frontend]
-\textbf{Nguyên nhân:} Máy chủ Backend chưa được bật hoặc chưa chạy lệnh seeder dữ liệu.\\
-\textbf{Cách xử lý:} Đảm bảo cửa sổ dòng lệnh Backend đang chạy lệnh \codeinline{php artisan serve} và đã chạy thành công lệnh \codeinline{php artisan migrate --seed}.
-\end{warningbox}
 
 \vspace{3mm}
 \begin{center}
