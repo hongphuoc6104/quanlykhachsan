@@ -210,88 +210,64 @@ git clone https://github.com/hongphuoc6104/quanlykhachsan.git
 cd quanlykhachsan
 \end{terminalcmd}
 
-% ==================== BƯỚC 3: CẤU HÌNH VÀ CHẠY BACKEND ====================
-\section{BƯỚC 3: Cài đặt và khởi chạy Máy chủ Backend (Laravel 12 API)}
+% ==================== BƯỚC 3: THIẾT LẬP DỰ ÁN TỰ ĐỘNG ====================
+\section{BƯỚC 3: Khởi tạo và thiết lập dự án tự động (Chạy file setup.bat)}
 
-\begin{stepbox}{Thực hiện các lệnh thiết lập Backend theo thứ tự}
+Để tiết kiệm thời gian và tránh các thao tác dòng lệnh phức tạp, dự án đã chuẩn bị sẵn file kịch bản tự động hóa \textbf{\texttt{setup.bat}}.
+
+\begin{stepbox}{Thao tác thiết lập toàn bộ hệ thống trong 1 bước}
 \begin{enumerate}[leftmargin=5mm,itemsep=2pt]
-  \item Di chuyển vào thư mục backend:
-\begin{terminalcmd}{Chuyển vào thư mục backend}
-cd backend
-\end{terminalcmd}
-  \item Cài đặt các thư viện PHP bằng Composer:
-\begin{terminalcmd}{Cài đặt dependencies PHP}
-composer install
-\end{terminalcmd}
-  \item Tạo file cấu hình môi trường \texttt{.env}:
-\begin{terminalcmd}{Tạo file .env từ file mẫu}
-copy .env.example .env
-\end{terminalcmd}
-  \item Mở file \texttt{.env} trong thư mục \texttt{backend} để cấu hình thông tin kết nối Cơ sở dữ liệu:
-\begin{terminalcmd}{Cấu hình kết nối MySQL và MongoDB trong backend/.env}
-DB\_CONNECTION=mysql
-DB\_HOST=127.0.0.1
-DB\_PORT=3306
-DB\_DATABASE=datphong
-DB\_USERNAME=root
-DB\_PASSWORD=
-
-MONGODB\_DATABASE=datphong
-MONGODB\_URI=mongodb://127.0.0.1:27017/datphong
-\end{terminalcmd}
-  \item Khởi tạo khóa bảo mật cho ứng dụng (Application Key):
-\begin{terminalcmd}{Tạo APP\_KEY}
-php artisan key:generate
-\end{terminalcmd}
-  \item Mở phần mềm quản lý MySQL (ví dụ: \textbf{phpMyAdmin} hoặc \textbf{Navicat/HeidiSQL}) và tạo một Cơ sở dữ liệu mới có tên là \codeinline{datphong}.
-  \item Chạy lệnh tạo bảng và nạp toàn bộ dữ liệu mẫu (Seeder) vào CSDL:
-\begin{terminalcmd}{Chạy migration và seeder}
-php artisan migrate --seed
-\end{terminalcmd}
-  \item Tạo liên kết thư mục lưu trữ ảnh tải lên (Storage Link):
-\begin{terminalcmd}{Tạo storage symlink}
-php artisan storage:link
-\end{terminalcmd}
-  \item Khởi chạy máy chủ Backend API:
-\begin{terminalcmd}{Khởi động Laravel Server (Cổng 8000)}
-php artisan serve
-\end{terminalcmd}
+  \item Đảm bảo dịch vụ \textbf{MySQL} (trên XAMPP/Laragon) và \textbf{MongoDB} đã được bật trên máy tính.
+  \item Mở thư mục dự án \texttt{quanlykhachsan} và \textbf{nhấp đúp chuột (Double-click)} vào file \textbf{\texttt{setup.bat}} (hoặc gõ \codeinline{setup.bat} trong cửa sổ dòng lệnh).
+  \item File script sẽ tự động thực hiện hoàn toàn các công việc sau từ A đến Z:
+    \begin{itemize}[itemsep=1.5pt]
+      \item Kiểm tra môi trường PHP, Composer, Node.js và npm trên máy.
+      \item Tự động khởi tạo file cấu hình \texttt{.env} cho cả Backend và Frontend từ file mẫu.
+      \item Cài đặt toàn bộ các gói thư viện PHP qua Composer (\texttt{composer install}).
+      \item Sinh khóa bảo mật ứng dụng (\codeinline{php artisan key:generate}).
+      \item Tạo liên kết thư mục lưu trữ hình ảnh (\codeinline{php artisan storage:link}).
+      \item Tự động chạy lệnh tạo bảng CSDL (\textit{Migrations}) và nạp sẵn toàn bộ dữ liệu mẫu (\textit{Seeders}).
+      \item Cài đặt toàn bộ dependencies Node.js cho Realtime Service và Frontend Vue 3.
+    \end{itemize}
 \end{enumerate}
 \end{stepbox}
 
-% ==================== BƯỚC 4: CẤU HÌNH VÀ CHẠY REALTIME ====================
-\section{BƯỚC 4: Cài đặt và khởi chạy Dịch vụ Thời gian thực (Realtime Service)}
+% ==================== BƯỚC 4: KHỞI CHẠY DỰ ÁN ====================
+\section{BƯỚC 4: Khởi chạy toàn bộ hệ thống}
 
-Mở một \textbf{cửa sổ dòng lệnh mới (CMD thứ 2)}, chuyển vào thư mục \texttt{realtime} và khởi chạy:
+Sau khi chạy \texttt{setup.bat} hoàn tất, bạn có thể khởi chạy hệ thống bằng 1 trong 2 cách sau:
 
-\begin{terminalcmd}{Cài đặt và khởi chạy máy chủ WebSocket Socket.IO (Cổng 3001)}
+\subsection*{Cách 1: Nhấp đúp vào file \texttt{start.bat} (Khuyên dùng -- Tự động mở cả 3 dịch vụ)}
+\begin{itemize}[leftmargin=5mm,itemsep=1.5pt]
+  \item \textbf{Nhấp đúp chuột trái} vào file \textbf{\texttt{start.bat}} trong thư mục dự án.
+  \item Script sẽ tự động mở 3 cửa sổ dòng lệnh riêng biệt để chạy song song:
+    \begin{enumerate}[itemsep=1pt]
+      \item \textbf{Cửa sổ 1:} Backend Laravel 12 API (Cổng 8000).
+      \item \textbf{Cửa sổ 2:} Realtime WebSocket Server (Cổng 3001).
+      \item \textbf{Cửa sổ 3:} Frontend Vue 3 Development Server (Cổng 3000).
+    \end{enumerate}
+\end{itemize}
+
+\subsection*{Cách 2: Khởi chạy thủ công từ 3 cửa sổ dòng lệnh riêng biệt}
+Nếu bạn muốn tự tay quản lý từng tiến trình, hãy mở 3 cửa sổ CMD tại thư mục \texttt{quanlykhachsan} và chạy:
+
+\begin{terminalcmd}{Cửa sổ 1: Chạy máy chủ Backend API (Laravel 12)}
+cd backend
+php artisan serve
+\end{terminalcmd}
+
+\begin{terminalcmd}{Cửa sổ 2: Chạy máy chủ thời gian thực (Socket.IO)}
 cd realtime
-npm install
 npm start
 \end{terminalcmd}
 
-% ==================== BƯỚC 5: CẤU HÌNH VÀ CHẠY FRONTEND ====================
-\section{BƯỚC 5: Cài đặt và khởi chạy Giao diện Web (Frontend Vue 3)}
-
-Mở thêm một \textbf{cửa sổ dòng lệnh thứ 3 (CMD thứ 3)}, chuyển vào thư mục \texttt{frontend} và khởi chạy:
-
-\begin{terminalcmd}{Cài đặt và khởi chạy máy chủ phát triển Frontend (Cổng 3000)}
+\begin{terminalcmd}{Cửa sổ 3: Chạy giao diện Web Frontend (Vue 3)}
 cd frontend
-npm install
 npm run dev
 \end{terminalcmd}
 
-\begin{tipbox}[Tóm tắt 3 cửa sổ dòng lệnh đang chạy song song]
-Để toàn bộ hệ thống hoạt động đầy đủ, bạn chỉ cần giữ 3 cửa sổ dòng lệnh:
-\begin{enumerate}[itemsep=1pt]
-  \item \textbf{Cửa sổ 1 (Backend):} Chạy \codeinline{php artisan serve} (Cổng 8000).
-  \item \textbf{Cửa sổ 2 (Realtime):} Chạy \codeinline{npm start} (Cổng 3001).
-  \item \textbf{Cửa sổ 3 (Frontend):} Chạy \codeinline{npm run dev} (Cổng 3000).
-\end{enumerate}
-\end{tipbox}
-
-% ==================== BƯỚC 6: TRUY CẬP VÀ TRẢI NGHIỆM ====================
-\section{BƯỚC 6: Truy cập và trải nghiệm các chức năng của hệ thống}
+% ==================== BƯỚC 5: TRUY CẬP VÀ TRẢI NGHIỆM ====================
+\section{BƯỚC 5: Truy cập và trải nghiệm các chức năng của hệ thống}
 
 Mở trình duyệt web (Google Chrome, Edge, Firefox) và truy cập vào các địa chỉ sau:
 
@@ -338,8 +314,8 @@ Hệ thống đã có sẵn 5 tài khoản mẫu tương ứng với 5 vai trò 
   \end{tabularx}
 \end{table}
 
-% ==================== BƯỚC 7: XỬ LÝ LỖI THƯỜNG GẶP ====================
-\section{BƯỚC 7: Hướng dẫn xử lý các sự cố thường gặp trên Windows}
+% ==================== BƯỚC 6: XỬ LÝ LỖI THƯỜNG GẶP ====================
+\section{BƯỚC 6: Hướng dẫn xử lý các sự cố thường gặp trên Windows}
 
 \begin{warningbox}[1. Lỗi: "could not find driver" khi chạy php artisan migrate]
 \textbf{Nguyên nhân:} PHP chưa bật extension kết nối cơ sở dữ liệu MySQL.\\
