@@ -1,9 +1,18 @@
-# DatPhong
+# StayGo - Hệ thống Đặt phòng và Quản lý Khách sạn
+
+> **GitHub Repository:** [https://github.com/hongphuoc6104/quanlykhachsan](https://github.com/hongphuoc6104/quanlykhachsan)
 
 Website đặt phòng khách sạn với giao diện tham khảo trải nghiệm của các nền tảng OTA, không phải bản sao thương hiệu. Hệ thống sử dụng Laravel 12 làm REST API, Vue 3 làm giao diện, MySQL làm cơ sở dữ liệu nghiệp vụ chính (thông tin khách hàng, sơ đồ phòng, hóa đơn, lịch đặt phòng, v.v.), MongoDB 8 (chạy replica set `rs0`) lưu lịch sử chat và logs/tracking, Redis phục vụ cache/queue/outbox, còn Node.js + Socket.io cập nhật sơ đồ phòng và chat theo thời gian thực. Ảnh phòng được lưu trên file storage; MongoDB/MySQL chỉ lưu metadata và đường dẫn tham chiếu. Virtual Tour 3D được để dành cho giai đoạn mở rộng.
 
-## Khởi chạy bằng Docker
+## Cài đặt & Khởi chạy
 
+### 1. Sao chép mã nguồn từ GitHub
+```bash
+git clone https://github.com/hongphuoc6104/quanlykhachsan.git
+cd quanlykhachsan
+```
+
+### 2. Khởi chạy bằng Docker
 Yêu cầu Docker Desktop có Docker Compose v2. Từ thư mục gốc dự án, chạy:
 
 ```bash
