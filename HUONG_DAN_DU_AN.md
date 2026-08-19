@@ -46,7 +46,7 @@ Dự án áp dụng mô hình kiến trúc hiện đại, tận dụng thế m�
    - Nhấp đúp chuột vào file **`setup.bat`** (hoặc gõ `setup.bat` trong CMD). Script sẽ tự động chuẩn bị `.env`, cài đặt thư viện PHP/Node.js, chạy migration và nạp dữ liệu mẫu.
 
 4. **Khởi chạy hệ thống:**
-   - Nhấp đúp chuột vào file **`start.bat`** (hoặc **`run.bat`**): Hệ thống tự động mở 3 cửa sổ CMD chạy song song Backend, Realtime và Frontend.
+   - Nhấp đúp chuột vào file **`start.bat`**: Hệ thống tự động mở 3 cửa sổ CMD chạy song song Backend, Realtime và Frontend.
 
 5. **Truy cập các dịch vụ:**
    * 🌐 **Giao diện Web Khách hàng & Quản trị:** [http://localhost:3000](http://localhost:3000)

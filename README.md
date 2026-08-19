@@ -29,8 +29,8 @@ Chỉ cần nhấp đúp chuột vào file **`setup.bat`** (hoặc gõ `setup.ba
 3. Khởi tạo Application Key (`php artisan key:generate`) và liên kết lưu trữ (`php artisan storage:link`).
 4. Chạy tạo bảng CSDL và nạp sẵn toàn bộ dữ liệu mẫu (`php artisan migrate --seed`).
 
-### 4. Khởi chạy toàn bộ hệ thống (`start.bat` hoặc `run.bat`)
-- Nhấp đúp chuột vào file **`start.bat`** (hoặc **`run.bat`**): Hệ thống sẽ tự động mở 3 cửa sổ chạy song song:
+### 4. Khởi chạy toàn bộ hệ thống (`start.bat`)
+- Nhấp đúp chuột vào file **`start.bat`**: Hệ thống sẽ tự động mở 3 cửa sổ chạy song song:
   - **Backend API**: `http://localhost:8000`
   - **Realtime Service**: `http://localhost:3001`
   - **Frontend Web**: `http://localhost:3000`
@@ -93,8 +93,7 @@ quanlykhachsan/
 |   `-- src/                 Components, Views, Stores (Pinia), Router
 |-- realtime/                Node.js + Socket.IO Realtime Service
 |-- setup.bat                Script tự động thiết lập và cài đặt toàn bộ dự án
-|-- start.bat                Script tự động bật 3 dịch vụ trên Windows
-`-- run.bat                  Script khởi chạy nhanh hệ thống
+`-- start.bat                Script tự động bật 3 dịch vụ trên Windows
 ```
 
 ---
